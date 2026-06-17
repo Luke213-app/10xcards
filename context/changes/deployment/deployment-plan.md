@@ -119,6 +119,27 @@ This plan covers the **first deploy of the auth shell only** — the product fea
 
 ---
 
+## Deployment Record (2026-06-18)
+
+**Live URL:** https://10x-astro-starter.01-lukaszblonski.workers.dev
+**Cloudflare account:** `6e435730c92d365c96652d8f867710e6` · **Worker:** `10x-astro-starter`
+**SESSION KV namespace:** `9f9bfd66373d4f1eb253ba553896d7e4` (pinned in `wrangler.jsonc`)
+**GitHub repo:** https://github.com/Luke213-app/10xcards (private, branch `master`)
+**Supabase project:** `https://doybynzbluvexgzyzils.supabase.co` (key = `sb_publishable_…`, new-format publishable key)
+
+| Phase | Status |
+|---|---|
+| 0 — persist plan | ✅ done |
+| 1 — CF account + auth + subdomain (`01-lukaszblonski.workers.dev`) | ✅ done |
+| 2 — Supabase project + creds | ✅ done |
+| 3 — local config (`.env`, `.dev.vars`, `.env.example`, npm scripts) | ✅ done |
+| 4 — secrets set + first deploy | ✅ done |
+| 5 — runtime verification (API-level: secrets resolve, Supabase reachable, CSRF active) | ✅ done; **full browser auth walkthrough pending user** |
+| 6 — Supabase auth URL wiring | ⏳ **pending (manual, dashboard)** |
+| 7 — git init + commit + push to GitHub | ✅ done · **Workers Builds connect pending (manual, dashboard)** |
+
+**Hardening applied beyond the original plan:** pinned the auto-provisioned `SESSION` KV namespace in `wrangler.jsonc` so Workers Builds deploys are deterministic (commit `97e24fd`).
+
 ## Verification (definition of done)
 
 1. `npm run build` succeeds and `npx wrangler deploy` returns a live `*.workers.dev` URL.
