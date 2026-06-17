@@ -33,42 +33,42 @@ This plan covers the **first deploy of the auth shell only** — the product fea
 - [x] Create `context/changes/deployment/` and write this document to `context/changes/deployment/deployment-plan.md`
 
 ## Phase 1 — Pre-flight & accounts (manual gates — human-only)
-- [ ] Confirm Cloudflare account exists (sign up if not) — **manual**
-- [ ] Run `npx wrangler login` for local interactive deploys; confirm with `npx wrangler whoami` (also prints the **Account ID**) — **manual**
-- [ ] On first deploy Cloudflare will prompt to **register a `workers.dev` subdomain** if you have none — accept it — **manual**
+- [x] Confirm Cloudflare account exists (sign up if not) — **manual**
+- [x] Run `npx wrangler login` for local interactive deploys; confirm with `npx wrangler whoami` (also prints the **Account ID** `6e435730…`) — **manual**
+- [x] On first deploy Cloudflare will prompt to **register a `workers.dev` subdomain** if you have none — accept it — **manual** (registered `01-lukaszblonski.workers.dev`)
 
 ## Phase 2 — Create & configure Supabase Cloud project (external integration)
-- [ ] Create a new project at supabase.com; pick a region close to users — **manual**
-- [ ] Copy **Project URL** and **anon public key** from Project Settings → API (this is the `SUPABASE_KEY` the starter uses client-side-safe via SSR cookies; do **not** use the service-role key here) — **manual**
-- [ ] Confirm email/password auth provider is enabled (default on) — **manual**
+- [x] Create a new project at supabase.com; pick a region close to users — **manual** (`doybynzbluvexgzyzils`)
+- [x] Copy **Project URL** and **anon public key** from Project Settings → API (this is the `SUPABASE_KEY` the starter uses client-side-safe via SSR cookies; do **not** use the service-role key here) — **manual** (used new-format `sb_publishable_…` key)
+- [x] Confirm email/password auth provider is enabled (default on) — **manual**
 - [ ] Auth redirect URLs are configured in **Phase 6** once we know the live Worker URL (deferred deliberately)
 
 ## Phase 3 — Local configuration
-- [ ] Create `.env` (Node-side `astro dev`): `SUPABASE_URL=...`, `SUPABASE_KEY=...` (gitignored)
-- [ ] Create `.dev.vars` (local workerd via `wrangler dev`): same two keys (gitignored)
-- [ ] Update `.env.example` to document both keys (currently `###` placeholders) — keep it committed
-- [ ] Add convenience scripts to `package.json`: `"deploy": "astro build && wrangler deploy"`, `"preview:remote": "astro build && wrangler versions upload"`, `"cf-typegen": "wrangler types"`
-- [ ] (Optional) `npx wrangler dev` to smoke-test the **workerd** runtime locally before any cloud deploy — this catches workerd-vs-Node parity bugs `astro dev` hides
+- [x] Create `.env` (Node-side `astro dev`): `SUPABASE_URL=...`, `SUPABASE_KEY=...` (gitignored)
+- [x] Create `.dev.vars` (local workerd via `wrangler dev`): same two keys (gitignored)
+- [x] Update `.env.example` to document both keys (currently `###` placeholders) — keep it committed
+- [x] Add convenience scripts to `package.json`: `"deploy": "astro build && wrangler deploy"`, `"preview:remote": "astro build && wrangler versions upload"`, `"cf-typegen": "wrangler types"`
+- [ ] (Optional) `npx wrangler dev` to smoke-test the **workerd** runtime locally before any cloud deploy — this catches workerd-vs-Node parity bugs `astro dev` hides *(skipped — validated directly on the deployed Worker instead)*
 
 ## Phase 4 — Wire production secrets + first manual deploy
-- [ ] `npm run build` — confirm clean SSR build into `dist/`
-- [ ] Set production secrets (stored in Cloudflare, never in repo): `npx wrangler secret put SUPABASE_URL` then `npx wrangler secret put SUPABASE_KEY`
-- [ ] `npx wrangler deploy` → note the live URL `https://10x-astro-starter.<subdomain>.workers.dev`
-- [ ] Secrets persist on the Worker across future deploys, so this `secret put` is a **one-time** step (auto-deploys won't wipe them)
+- [x] `npm run build` — confirm clean SSR build into `dist/`
+- [x] Set production secrets (stored in Cloudflare, never in repo): `npx wrangler secret put SUPABASE_URL` then `npx wrangler secret put SUPABASE_KEY`
+- [x] `npx wrangler deploy` → live URL `https://10x-astro-starter.01-lukaszblonski.workers.dev`
+- [x] Secrets persist on the Worker across future deploys, so this `secret put` is a **one-time** step (auto-deploys won't wipe them)
 
 ## Phase 5 — Verify on the deployed runtime (not just locally)
-- [ ] Open the live URL; confirm `/` and `/dashboard` render (dashboard should redirect to `/auth/signin` when logged out — proves middleware runs)
-- [ ] Exercise the full auth flow on the live URL: **signup → email confirm → signin → dashboard → signout** (`src/pages/auth/*` + `src/pages/api/auth/*`)
-- [ ] `npx wrangler tail --status error --format json` in a second terminal during the test to catch runtime errors
-- [ ] Confirm `astro:env/server` actually resolves the secrets in the Worker runtime (auth working == proof; if auth silently no-ops, secrets aren't reaching the runtime — see Edge Cases)
+- [x] Open the live URL; confirm `/` and `/dashboard` render (dashboard should redirect to `/auth/signin` when logged out — proves middleware runs) — `/`→200, `/dashboard`→302→`/auth/signin`
+- [ ] Exercise the full auth flow on the live URL: **signup → email confirm → signin → dashboard → signout** (`src/pages/auth/*` + `src/pages/api/auth/*`) — *pending full browser walkthrough*
+- [ ] `npx wrangler tail --status error --format json` in a second terminal during the test to catch runtime errors — *not run; verified via API probes instead*
+- [x] Confirm `astro:env/server` actually resolves the secrets in the Worker runtime (auth working == proof) — signin API returned Supabase's *"Invalid login credentials"* (not the "Supabase is not configured" fallback), proving secrets resolve + Supabase reachable + `@supabase/ssr` works under workerd
 
 ## Phase 6 — Supabase auth URL wiring (external-integration edge case)
 - [ ] In Supabase → Authentication → URL Configuration: set **Site URL** to the live Worker URL and add it (with `/**`) to the **Redirect allow-list** — otherwise email-confirmation links and any redirect-based flow bounce to localhost or are rejected — **manual**
 - [ ] Re-test signup → email confirmation end-to-end after this change (`src/pages/auth/confirm-email.astro` is the landing page)
 
 ## Phase 7 — Git + GitHub + Cloudflare Workers Builds auto-deploy-on-push
-- [ ] `git init`, confirm `.gitignore` covers secrets (it does — `.env`, `.dev.vars`), make the initial commit on branch **`master`**
-- [ ] Create the GitHub repo and push — **manual** (or `gh repo create`)
+- [x] `git init`, confirm `.gitignore` covers secrets (it does — `.env`, `.dev.vars`), make the initial commit on branch **`master`**
+- [x] Create the GitHub repo and push — **manual** (or `gh repo create`) — pushed to `Luke213-app/10xcards` (private); required granting the `gh` `workflow` scope to push `ci.yml`
 - [ ] In the Cloudflare dashboard → the `10x-astro-starter` Worker → **Settings → Builds → Connect** (or *Workers & Pages → Create → Connect to Git*): authorize the **Cloudflare GitHub app** for this repo — **manual**. This is what grants deploy access; no API token is created or stored anywhere.
 - [ ] Configure the build in the dashboard: **production branch = `master`**, **build command = `npm run build`**, **deploy command = `npx wrangler deploy`** (Cloudflare runs these in its build container on every push) — **manual**
 - [ ] If the build needs the Supabase values at build time, add `SUPABASE_URL` / `SUPABASE_KEY` as **build environment variables / build secrets** in the Workers Builds config — **manual**. (They're optional in the env schema, so the build also succeeds without them; runtime still uses the Worker secrets from Phase 4, which Workers Builds does **not** overwrite.)
