@@ -9,6 +9,15 @@
     "directory": "./dist",
     "not_found_handling": "404-page",
   },
+  // Astro sessions are backed by KV via the @astrojs/cloudflare adapter.
+  // Pinned explicitly (was auto-provisioned on first deploy) so CI/Workers
+  // Builds deploys are deterministic and don't rely on interactive provisioning.
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "9f9bfd66373d4f1eb253ba553896d7e4",
+    },
+  ],
   "observability": {
     "enabled": true,
   },
