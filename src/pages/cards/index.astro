@@ -2,27 +2,17 @@
 import Layout from "@/layouts/Layout.astro";
 import { createClient } from "@/lib/supabase";
 import { listFlashcards } from "@/lib/services/flashcards";
-import type { FlashcardSource } from "@/types";
+import CardList from "@/components/cards/CardList";
 
-// Auth is enforced by middleware (PROTECTED_ROUTES). Read-only browse view:
-// the list is fetched server-side via the RLS-scoped client, so a user only
-// ever sees their own cards. No island, no client JS.
+// Auth is enforced by middleware (PROTECTED_ROUTES). The list is fetched
+// server-side via the RLS-scoped client (a user only ever sees their own cards)
+// and handed to the CardList island, which owns edit/delete interactivity.
 const { user } = Astro.locals;
 
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 // Distinguish "secrets unset / cannot load" from "genuinely empty collection".
 const configured = supabase !== null;
 const cards = supabase ? await listFlashcards(supabase) : [];
-
-// Human-readable label per origin (mirrors the FlashcardSource enum exactly).
-const SOURCE_LABELS: Record<FlashcardSource, string> = {
-  "ai-full": "AI",
-  "ai-edited": "AI (edited)",
-  manual: "Manual",
-};
-
-const dateFmt = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
-const formatDate = (iso: string) => dateFmt.format(new Date(iso));
 ---
 
 <Layout title="My cards">
@@ -71,22 +61,7 @@ const formatDate = (iso: string) => dateFmt.format(new Date(iso));
             </div>
           </section>
         ) : (
-          <ul class="space-y-4">
-            {cards.map((card) => (
-              <li class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <div class="mb-2 flex items-center justify-between gap-3">
-                  <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-xs font-medium text-blue-100/80">
-                    {SOURCE_LABELS[card.source]}
-                  </span>
-                  <time datetime={card.createdAt} class="text-xs text-blue-100/50">
-                    {formatDate(card.createdAt)}
-                  </time>
-                </div>
-                <p class="font-semibold whitespace-pre-wrap text-white">{card.front}</p>
-                <p class="mt-2 text-sm whitespace-pre-wrap text-blue-100/70">{card.back}</p>
-              </li>
-            ))}
-          </ul>
+          <CardList cards={cards} client:load />
         )
       }
     </div>
