@@ -218,15 +218,15 @@ None — no schema or data migration. RLS UPDATE/DELETE policies and the `update
 
 #### Automated
 
-- [x] 2.1 Type checking passes (`npx tsc --noEmit` / `npm run build`)
-- [x] 2.2 Linting passes (`npm run lint`)
-- [x] 2.3 Production build succeeds (`npm run build`)
+- [x] 2.1 Type checking passes (`npx tsc --noEmit` / `npm run build`) — ebe2bfb
+- [x] 2.2 Linting passes (`npm run lint`) — ebe2bfb
+- [x] 2.3 Production build succeeds (`npm run build`) — ebe2bfb
 
 #### Manual
 
-- [x] 2.4 List renders as before (source label + date intact)
-- [x] 2.5 Edit front+back, Save → in-place update, no reload; persists on reload
-- [x] 2.6 Cancel mid-edit restores saved text; empty/>1000-char field disables Save
-- [x] 2.7 Delete → Confirm removes card without reload; Cancel aborts; persists on reload
-- [x] 2.8 Failed request shows inline error without dropping/duplicating the card
-- [x] 2.9 No regression to empty / not-configured states; user sees only own cards
+- [x] 2.4 List renders as before (source label + date intact) — ebe2bfb
+- [x] 2.5 Edit front+back, Save → in-place update, no reload; persists on reload — ebe2bfb
+- [x] 2.6 Cancel mid-edit restores saved text; empty/>1000-char field disables Save — ebe2bfb
+- [x] 2.7 Delete → Confirm removes card without reload; Cancel aborts; persists on reload — ebe2bfb
+- [x] 2.8 Failed request shows inline error without dropping/duplicating the card — ebe2bfb
+- [x] 2.9 No regression to empty / not-configured states; user sees only own cards — ebe2bfb
