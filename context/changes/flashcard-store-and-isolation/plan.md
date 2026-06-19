@@ -191,25 +191,25 @@ No test runner is configured and none is added here. Verification relies on:
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly against local Supabase (`supabase db reset` / `migration up`)
-- [x] 1.2 Migration file exists under `supabase/migrations/` matching the naming convention
+- [x] 1.1 Migration applies cleanly against local Supabase (`supabase db reset` / `migration up`) — aadaa31
+- [x] 1.2 Migration file exists under `supabase/migrations/` matching the naming convention — aadaa31
 
 #### Manual
 
-- [x] 1.3 Two-user isolation: A sees only A's rows; B's select returns zero of A's rows
-- [x] 1.4 B cannot update or delete A's card (0 rows affected / rejected)
-- [x] 1.5 Insert without `user_id` populates it from `auth.uid()`
-- [x] 1.6 Empty/whitespace front/back rejected by CHECK; update bumps `updated_at`
+- [x] 1.3 Two-user isolation: A sees only A's rows; B's select returns zero of A's rows — aadaa31
+- [x] 1.4 B cannot update or delete A's card (0 rows affected / rejected) — aadaa31
+- [x] 1.5 Insert without `user_id` populates it from `auth.uid()` — aadaa31
+- [x] 1.6 Empty/whitespace front/back rejected by CHECK; update bumps `updated_at` — aadaa31
 
 ### Phase 2: TypeScript layer (types + service)
 
 #### Automated
 
-- [ ] 2.1 Type checking passes (`npm run build` / `npx astro check`)
-- [ ] 2.2 Linting passes (`npm run lint`)
-- [ ] 2.3 Formatting passes (`npm run format` / lint-staged)
+- [x] 2.1 Type checking passes (`npm run build` / `npx astro check`)
+- [x] 2.2 Linting passes (`npm run lint`)
+- [x] 2.3 Formatting passes (`npm run format` / lint-staged)
 
 #### Manual
 
-- [ ] 2.4 `createFlashcard` + `listFlashcards` round-trip returns correct camelCase fields and `source`
-- [ ] 2.5 Type errors surface for fields not defined on the DTOs (types mirror the table)
+- [x] 2.4 `createFlashcard` + `listFlashcards` round-trip returns correct camelCase fields and `source`
+- [x] 2.5 Type errors surface for fields not defined on the DTOs (types mirror the table)
