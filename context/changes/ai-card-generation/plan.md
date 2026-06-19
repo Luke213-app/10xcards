@@ -265,17 +265,17 @@ No schema changes — F-01's table and `flashcard_source` enum already cover eve
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro check` (or `npm run build`)
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Production build succeeds: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check` (or `npm run build`) — 3f87288
+- [x] 2.2 Linting passes: `npm run lint` — 3f87288
+- [x] 2.3 Production build succeeds: `npm run build` — 3f87288
 
 #### Manual
 
-- [x] 2.4 `/generate` while signed out redirects to `/auth/signin`
-- [x] 2.5 Generate shows instant pending + continuous progress until candidates render
-- [x] 2.6 Character counter warns near 10,000 and Generate is disabled past the cap
-- [x] 2.7 Unedited accept saves `ai-full`; edit-then-accept saves `ai-edited` (verified in Studio)
-- [x] 2.8 Reject removes a card with no DB write
-- [x] 2.9 Empty state shows and the manual-create form saves a `manual` card
-- [x] 2.10 Error state shows Retry and preserves pasted text
-- [x] 2.11 No regression to existing auth/dashboard flows
+- [x] 2.4 `/generate` while signed out redirects to `/auth/signin` — 3f87288
+- [x] 2.5 Generate shows instant pending + continuous progress until candidates render — 3f87288
+- [x] 2.6 Character counter warns near 10,000 and Generate is disabled past the cap — 3f87288
+- [x] 2.7 Unedited accept saves `ai-full`; edit-then-accept saves `ai-edited` (verified in Studio) — 3f87288
+- [x] 2.8 Reject removes a card with no DB write — 3f87288
+- [x] 2.9 Empty state shows and the manual-create form saves a `manual` card — 3f87288
+- [x] 2.10 Error state shows Retry and preserves pasted text — 3f87288
+- [x] 2.11 No regression to existing auth/dashboard flows — 3f87288
