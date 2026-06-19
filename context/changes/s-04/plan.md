@@ -202,31 +202,31 @@ None — no schema or data migration. RLS UPDATE/DELETE policies and the `update
 
 #### Automated
 
-- [x] 1.1 Type checking passes (`npx tsc --noEmit` / `npm run build`)
-- [x] 1.2 Linting passes (`npm run lint`)
-- [x] 1.3 Production build succeeds (`npm run build`)
+- [x] 1.1 Type checking passes (`npx tsc --noEmit` / `npm run build`) — 6f487dd
+- [x] 1.2 Linting passes (`npm run lint`) — 6f487dd
+- [x] 1.3 Production build succeeds (`npm run build`) — 6f487dd
 
 #### Manual
 
-- [x] 1.4 PATCH own card returns 200 + updated flashcard; `updatedAt` advances
-- [x] 1.5 PATCH/DELETE to a random UUID returns 404 (not 500)
-- [x] 1.6 PATCH with empty body / empty field / >1000-char field returns 400
-- [x] 1.7 DELETE own card succeeds and the row is gone; repeat DELETE returns 404
-- [x] 1.8 Unauthenticated PATCH/DELETE returns 401
+- [x] 1.4 PATCH own card returns 200 + updated flashcard; `updatedAt` advances — 6f487dd
+- [x] 1.5 PATCH/DELETE to a random UUID returns 404 (not 500) — 6f487dd
+- [x] 1.6 PATCH with empty body / empty field / >1000-char field returns 400 — 6f487dd
+- [x] 1.7 DELETE own card succeeds and the row is gone; repeat DELETE returns 404 — 6f487dd
+- [x] 1.8 Unauthenticated PATCH/DELETE returns 401 — 6f487dd
 
 ### Phase 2: Interactive CardList island
 
 #### Automated
 
-- [ ] 2.1 Type checking passes (`npx tsc --noEmit` / `npm run build`)
-- [ ] 2.2 Linting passes (`npm run lint`)
-- [ ] 2.3 Production build succeeds (`npm run build`)
+- [x] 2.1 Type checking passes (`npx tsc --noEmit` / `npm run build`)
+- [x] 2.2 Linting passes (`npm run lint`)
+- [x] 2.3 Production build succeeds (`npm run build`)
 
 #### Manual
 
-- [ ] 2.4 List renders as before (source label + date intact)
-- [ ] 2.5 Edit front+back, Save → in-place update, no reload; persists on reload
-- [ ] 2.6 Cancel mid-edit restores saved text; empty/>1000-char field disables Save
-- [ ] 2.7 Delete → Confirm removes card without reload; Cancel aborts; persists on reload
-- [ ] 2.8 Failed request shows inline error without dropping/duplicating the card
-- [ ] 2.9 No regression to empty / not-configured states; user sees only own cards
+- [x] 2.4 List renders as before (source label + date intact)
+- [x] 2.5 Edit front+back, Save → in-place update, no reload; persists on reload
+- [x] 2.6 Cancel mid-edit restores saved text; empty/>1000-char field disables Save
+- [x] 2.7 Delete → Confirm removes card without reload; Cancel aborts; persists on reload
+- [x] 2.8 Failed request shows inline error without dropping/duplicating the card
+- [x] 2.9 No regression to empty / not-configured states; user sees only own cards
