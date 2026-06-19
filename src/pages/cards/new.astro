@@ -1,29 +1,26 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import GenerateView from "@/components/generate/GenerateView";
+import ManualCardForm from "@/components/manual/ManualCardForm";
 
 // Auth is enforced by middleware (PROTECTED_ROUTES). The island owns all state.
 const { user } = Astro.locals;
 ---
 
-<Layout title="Generate flashcards">
+<Layout title="Add a flashcard">
   <main class="bg-cosmic min-h-screen p-4 text-white">
     <div class="mx-auto w-full max-w-3xl py-10">
       <header class="mb-8 flex items-center justify-between">
         <div>
           <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-            Generate flashcards
+            Add a flashcard
           </h1>
           <p class="mt-1 text-sm text-blue-100/60">
-            Paste your notes and let AI turn them into study cards{user?.email ? `, ${user.email}` : ""}.
+            Write a card by hand and save it to your collection{user?.email ? `, ${user.email}` : ""}.
           </p>
         </div>
-        <div class="flex items-center gap-4">
-          <a href="/cards/new" class="text-sm text-purple-300 hover:underline">Add manually</a>
-          <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
-        </div>
+        <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
       </header>
-      <GenerateView client:load />
+      <ManualCardForm client:load heading="New flashcard" intro="Type a question and its answer, then save." />
     </div>
   </main>
 </Layout>
