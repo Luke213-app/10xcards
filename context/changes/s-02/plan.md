@@ -194,26 +194,26 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Build (typecheck + SSR build) passes: `npm run build`
+- [x] 1.1 Linting passes: `npm run lint` — fa93404
+- [x] 1.2 Build (typecheck + SSR build) passes: `npm run build` — fa93404
 
 #### Manual
 
-- [x] 1.3 Generate empty-state manual form renders identically, saves as `manual`, clears, shows saved count
-- [x] 1.4 "Start over" in the empty state still resets the generate flow
-- [x] 1.5 No regression in the candidate review/accept path
+- [x] 1.3 Generate empty-state manual form renders identically, saves as `manual`, clears, shows saved count — fa93404
+- [x] 1.4 "Start over" in the empty state still resets the generate flow — fa93404
+- [x] 1.5 No regression in the candidate review/accept path — fa93404
 
 ### Phase 2: Dedicated `/cards/new` page and navigation
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Build (typecheck + SSR build) passes: `npm run build`
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Build (typecheck + SSR build) passes: `npm run build`
 
 #### Manual
 
 - [ ] 2.3 Signed-in `/cards/new` saves a card persisting with `source = 'manual'` and correct `user_id`
 - [ ] 2.4 After save, fields clear, confirmation + count show, focus returns to Front; second card addable without clicking
-- [ ] 2.5 Signed-out `/cards/new` redirects to `/auth/signin`
-- [ ] 2.6 Dashboard "Add card manually" CTA and generate-header "Add manually" link both reach `/cards/new`
-- [ ] 2.7 No regression to `/dashboard`, `/generate`, or auth
+- [x] 2.5 Signed-out `/cards/new` redirects to `/auth/signin`
+- [x] 2.6 Dashboard "Add card manually" CTA and generate-header "Add manually" link both reach `/cards/new`
+- [x] 2.7 No regression to `/dashboard`, `/generate`, or auth
