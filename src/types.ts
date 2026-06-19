@@ -32,3 +32,22 @@ export interface UpdateFlashcardCommand {
   front?: string;
   back?: string;
 }
+
+// --- AI generation flow (S-01) ---
+
+/** Body of `POST /api/generate`: the source text to extract cards from. */
+export interface GenerateRequest {
+  sourceText: string;
+}
+
+/** A single AI-proposed card, pre-save. No id/source yet — `source` is derived
+ *  client-side on accept (`ai-full` unedited, `ai-edited` if changed). */
+export interface FlashcardCandidate {
+  front: string;
+  back: string;
+}
+
+/** Response of `POST /api/generate`: the (possibly empty) candidate list. */
+export interface GenerateResponse {
+  candidates: FlashcardCandidate[];
+}
