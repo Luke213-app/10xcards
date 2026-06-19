@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Sparkles, Loader2, AlertCircle, RotateCcw, Plus, Check } from "lucide-react";
+import { Sparkles, Loader2, AlertCircle, RotateCcw, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CandidateCard, type Candidate } from "@/components/generate/CandidateCard";
+import ManualCardForm from "@/components/manual/ManualCardForm";
 import type { FlashcardCandidate, FlashcardSource, GenerateResponse } from "@/types";
 
 const MAX_SOURCE = 10000;
@@ -211,81 +212,26 @@ export default function GenerateView() {
 }
 
 function EmptyState({ onReset, savedCount }: { onReset: () => void; savedCount: number }) {
-  const [front, setFront] = useState("");
-  const [back, setBack] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [savedManual, setSavedManual] = useState(0);
-
-  const canSave = front.trim().length > 0 && back.trim().length > 0 && !saving;
-
-  async function save() {
-    setSaving(true);
-    setError(null);
-    try {
-      await saveFlashcard(front.trim(), back.trim(), "manual");
-      setFront("");
-      setBack("");
-      setSavedManual((n) => n + 1);
-    } catch {
-      setError("Couldn't save. Try again.");
-    } finally {
-      setSaving(false);
-    }
-  }
-
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-6">
-      <h2 className="text-lg font-semibold text-white">No usable cards from this text</h2>
-      <p className="mt-1 text-sm text-blue-100/60">
-        The AI couldn&apos;t extract flashcards. You can still add one by hand below.
-      </p>
-
-      <div className="mt-4 space-y-3">
-        <textarea
-          value={front}
-          maxLength={1000}
-          onChange={(e) => {
-            setFront(e.target.value);
-          }}
-          rows={2}
-          placeholder="Front (question)"
-          className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60"
-        />
-        <textarea
-          value={back}
-          maxLength={1000}
-          onChange={(e) => {
-            setBack(e.target.value);
-          }}
-          rows={3}
-          placeholder="Back (answer)"
-          className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60"
-        />
-        {error && <p className="text-sm text-red-300">{error}</p>}
-        {savedManual > 0 && <p className="text-sm text-green-300">{savedManual} card(s) saved.</p>}
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            disabled={!canSave}
-            onClick={save}
-            className="bg-purple-600 text-white hover:bg-purple-500"
-          >
-            {saving ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
-            Save card
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onReset}
-            className="border-white/20 bg-transparent text-white hover:bg-white/10"
-          >
-            <RotateCcw className="size-4" />
-            Start over
-          </Button>
-        </div>
-        {savedCount > 0 && <p className="text-xs text-blue-100/50">{savedCount} card(s) saved earlier this session.</p>}
-      </div>
-    </section>
+    <ManualCardForm
+      heading="No usable cards from this text"
+      intro="The AI couldn't extract flashcards. You can still add one by hand below."
+      actions={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onReset}
+          className="border-white/20 bg-transparent text-white hover:bg-white/10"
+        >
+          <RotateCcw className="size-4" />
+          Start over
+        </Button>
+      }
+      footer={
+        savedCount > 0 ? (
+          <p className="text-xs text-blue-100/50">{savedCount} card(s) saved earlier this session.</p>
+        ) : null
+      }
+    />
   );
 }
