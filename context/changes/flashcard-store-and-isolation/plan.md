@@ -205,11 +205,11 @@ No test runner is configured and none is added here. Verification relies on:
 
 #### Automated
 
-- [x] 2.1 Type checking passes (`npm run build` / `npx astro check`)
-- [x] 2.2 Linting passes (`npm run lint`)
-- [x] 2.3 Formatting passes (`npm run format` / lint-staged)
+- [x] 2.1 Type checking passes (`npm run build` / `npx astro check`) — 70e66a5
+- [x] 2.2 Linting passes (`npm run lint`) — 70e66a5
+- [x] 2.3 Formatting passes (`npm run format` / lint-staged) — 70e66a5
 
 #### Manual
 
-- [x] 2.4 `createFlashcard` + `listFlashcards` round-trip returns correct camelCase fields and `source`
-- [x] 2.5 Type errors surface for fields not defined on the DTOs (types mirror the table)
+- [x] 2.4 `createFlashcard` + `listFlashcards` round-trip returns correct camelCase fields and `source` — 70e66a5
+- [x] 2.5 Type errors surface for fields not defined on the DTOs (types mirror the table) — 70e66a5
