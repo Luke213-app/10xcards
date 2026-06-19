@@ -23,6 +23,18 @@ export const createFlashcardSchema = z.object({
   source: z.enum(["ai-full", "ai-edited", "manual"]),
 });
 
+/** Body of `PATCH /api/flashcards/[id]` — partial edit of front/back only.
+ *  `source` is immutable post-create, so it isn't accepted. At least one of
+ *  the two fields must be present, else an empty patch would be a no-op UPDATE. */
+export const updateFlashcardSchema = z
+  .object({
+    front: trimmedText(FIELD_MAX).optional(),
+    back: trimmedText(FIELD_MAX).optional(),
+  })
+  .refine((data) => data.front !== undefined || data.back !== undefined, {
+    message: "At least one of front or back must be provided",
+  });
+
 const llmCandidateSchema = z.object({
   front: trimmedText(FIELD_MAX),
   back: trimmedText(FIELD_MAX),

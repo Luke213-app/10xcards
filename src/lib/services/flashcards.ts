@@ -55,18 +55,25 @@ export async function updateFlashcard(
   client: SupabaseClient,
   id: string,
   cmd: UpdateFlashcardCommand,
-): Promise<Flashcard> {
+): Promise<Flashcard | null> {
   // Only send fields the caller actually set, so omitted fields are left untouched.
   const patch: Database["public"]["Tables"]["flashcards"]["Update"] = {};
   if (cmd.front !== undefined) patch.front = cmd.front;
   if (cmd.back !== undefined) patch.back = cmd.back;
 
-  const { data, error } = await typed(client).from("flashcards").update(patch).eq("id", id).select().single();
+  // `.maybeSingle()` (not `.single()`): RLS hides another user's row and a
+  // missing id both yield 0 rows — return `null` so the route can answer 404
+  // instead of surfacing PostgREST's PGRST116 as a thrown 500.
+  const { data, error } = await typed(client).from("flashcards").update(patch).eq("id", id).select().maybeSingle();
   if (error) throw error;
-  return toFlashcard(data);
+  return data ? toFlashcard(data) : null;
 }
 
-export async function deleteFlashcard(client: SupabaseClient, id: string): Promise<void> {
-  const { error } = await typed(client).from("flashcards").delete().eq("id", id);
+export async function deleteFlashcard(client: SupabaseClient, id: string): Promise<boolean> {
+  // `.select()` returns the deleted rows; 0 rows means missing or not-owned
+  // (RLS), so the route can map `false` → 404 rather than reporting a silent
+  // success for a delete that affected nothing.
+  const { data, error } = await typed(client).from("flashcards").delete().eq("id", id).select();
   if (error) throw error;
+  return data.length > 0;
 }
