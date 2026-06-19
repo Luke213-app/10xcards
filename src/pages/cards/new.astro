@@ -18,7 +18,10 @@ const { user } = Astro.locals;
             Write a card by hand and save it to your collection{user?.email ? `, ${user.email}` : ""}.
           </p>
         </div>
-        <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
+        <div class="flex items-center gap-4">
+          <a href="/cards" class="text-sm text-purple-300 hover:underline">My cards</a>
+          <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
+        </div>
       </header>
       <ManualCardForm client:load heading="New flashcard" intro="Type a question and its answer, then save." />
     </div>

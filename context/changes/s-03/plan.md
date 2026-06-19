@@ -186,27 +186,27 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Build (typecheck + SSR build) passes: `npm run build`
+- [x] 1.1 Linting passes: `npm run lint` — 1f5d39a
+- [x] 1.2 Build (typecheck + SSR build) passes: `npm run build` — 1f5d39a
 
 #### Manual
 
-- [x] 1.3 Signed-in user with cards sees them newest-first with front/back, source badge, and created date
-- [x] 1.4 User with no cards sees the "No cards yet" empty state with working Generate + Add-manually CTAs
-- [x] 1.5 A newly created/generated card appears on `/cards` after navigation
-- [x] 1.6 Two-user isolation: user B never sees user A's cards on `/cards`
-- [x] 1.7 Signed-out visit to `/cards` redirects to `/auth/signin`
+- [x] 1.3 Signed-in user with cards sees them newest-first with front/back, source badge, and created date — 1f5d39a
+- [x] 1.4 User with no cards sees the "No cards yet" empty state with working Generate + Add-manually CTAs — 1f5d39a
+- [x] 1.5 A newly created/generated card appears on `/cards` after navigation — 1f5d39a
+- [x] 1.6 Two-user isolation: user B never sees user A's cards on `/cards` — 1f5d39a
+- [x] 1.7 Signed-out visit to `/cards` redirects to `/auth/signin` — 1f5d39a
 
 ### Phase 2: Navigation entry points
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Build (typecheck + SSR build) passes: `npm run build`
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Build (typecheck + SSR build) passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.3 Dashboard "My cards" link navigates to `/cards`
-- [ ] 2.4 Generate-header "My cards" link navigates to `/cards`
-- [ ] 2.5 `/cards/new`-header "My cards" link navigates to `/cards`
-- [ ] 2.6 No regression to `/dashboard`, `/generate`, `/cards/new`, or auth
+- [x] 2.3 Dashboard "My cards" link navigates to `/cards`
+- [x] 2.4 Generate-header "My cards" link navigates to `/cards`
+- [x] 2.5 `/cards/new`-header "My cards" link navigates to `/cards`
+- [x] 2.6 No regression to `/dashboard`, `/generate`, `/cards/new`, or auth
