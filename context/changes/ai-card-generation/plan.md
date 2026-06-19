@@ -248,34 +248,34 @@ No schema changes — F-01's table and `flashcard_source` enum already cover eve
 
 #### Automated
 
-- [x] 1.1 Dependency installs: `npm install` succeeds and `zod` is in `package.json`
-- [x] 1.2 Type checking passes: `npx astro check` (or `npm run build`)
-- [x] 1.3 Linting passes: `npm run lint`
-- [x] 1.4 Production build succeeds: `npm run build`
+- [x] 1.1 Dependency installs: `npm install` succeeds and `zod` is in `package.json` — 162899d
+- [x] 1.2 Type checking passes: `npx astro check` (or `npm run build`) — 162899d
+- [x] 1.3 Linting passes: `npm run lint` — 162899d
+- [x] 1.4 Production build succeeds: `npm run build` — 162899d
 
 #### Manual
 
-- [x] 1.5 `POST /api/generate` with a paragraph returns a JSON `candidates` array (≤10, non-empty front/back)
-- [x] 1.6 `POST /api/generate` returns 400 on empty/short and on >10000 chars
-- [x] 1.7 `POST /api/generate` unauthenticated returns 401
-- [x] 1.8 `POST /api/flashcards` with a valid body creates a correctly-owned row and returns 201; invalid returns 400
-- [x] 1.9 With `OPENROUTER_API_KEY` unset, `/api/generate` returns 503 (no crash)
+- [x] 1.5 `POST /api/generate` with a paragraph returns a JSON `candidates` array (≤10, non-empty front/back) — 162899d
+- [x] 1.6 `POST /api/generate` returns 400 on empty/short and on >10000 chars — 162899d
+- [x] 1.7 `POST /api/generate` unauthenticated returns 401 — 162899d
+- [x] 1.8 `POST /api/flashcards` with a valid body creates a correctly-owned row and returns 201; invalid returns 400 — 162899d
+- [x] 1.9 With `OPENROUTER_API_KEY` unset, `/api/generate` returns 503 (no crash) — 162899d
 
 ### Phase 2: Frontend — generate page & review island
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npx astro check` (or `npm run build`)
-- [ ] 2.2 Linting passes: `npm run lint`
-- [ ] 2.3 Production build succeeds: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check` (or `npm run build`)
+- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.3 Production build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 `/generate` while signed out redirects to `/auth/signin`
-- [ ] 2.5 Generate shows instant pending + continuous progress until candidates render
-- [ ] 2.6 Character counter warns near 10,000 and Generate is disabled past the cap
-- [ ] 2.7 Unedited accept saves `ai-full`; edit-then-accept saves `ai-edited` (verified in Studio)
-- [ ] 2.8 Reject removes a card with no DB write
-- [ ] 2.9 Empty state shows and the manual-create form saves a `manual` card
-- [ ] 2.10 Error state shows Retry and preserves pasted text
-- [ ] 2.11 No regression to existing auth/dashboard flows
+- [x] 2.4 `/generate` while signed out redirects to `/auth/signin`
+- [x] 2.5 Generate shows instant pending + continuous progress until candidates render
+- [x] 2.6 Character counter warns near 10,000 and Generate is disabled past the cap
+- [x] 2.7 Unedited accept saves `ai-full`; edit-then-accept saves `ai-edited` (verified in Studio)
+- [x] 2.8 Reject removes a card with no DB write
+- [x] 2.9 Empty state shows and the manual-create form saves a `manual` card
+- [x] 2.10 Error state shows Retry and preserves pasted text
+- [x] 2.11 No regression to existing auth/dashboard flows

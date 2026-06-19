@@ -1,0 +1,26 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import GenerateView from "@/components/generate/GenerateView";
+
+// Auth is enforced by middleware (PROTECTED_ROUTES). The island owns all state.
+const { user } = Astro.locals;
+---
+
+<Layout title="Generate flashcards">
+  <main class="bg-cosmic min-h-screen p-4 text-white">
+    <div class="mx-auto w-full max-w-3xl py-10">
+      <header class="mb-8 flex items-center justify-between">
+        <div>
+          <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
+            Generate flashcards
+          </h1>
+          <p class="mt-1 text-sm text-blue-100/60">
+            Paste your notes and let AI turn them into study cards{user?.email ? `, ${user.email}` : ""}.
+          </p>
+        </div>
+        <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
+      </header>
+      <GenerateView client:load />
+    </div>
+  </main>
+</Layout>
