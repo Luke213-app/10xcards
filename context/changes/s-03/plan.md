@@ -201,12 +201,12 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Build (typecheck + SSR build) passes: `npm run build`
+- [x] 2.1 Linting passes: `npm run lint` — bc883c6
+- [x] 2.2 Build (typecheck + SSR build) passes: `npm run build` — bc883c6
 
 #### Manual
 
-- [x] 2.3 Dashboard "My cards" link navigates to `/cards`
-- [x] 2.4 Generate-header "My cards" link navigates to `/cards`
-- [x] 2.5 `/cards/new`-header "My cards" link navigates to `/cards`
-- [x] 2.6 No regression to `/dashboard`, `/generate`, `/cards/new`, or auth
+- [x] 2.3 Dashboard "My cards" link navigates to `/cards` — bc883c6
+- [x] 2.4 Generate-header "My cards" link navigates to `/cards` — bc883c6
+- [x] 2.5 `/cards/new`-header "My cards" link navigates to `/cards` — bc883c6
+- [x] 2.6 No regression to `/dashboard`, `/generate`, `/cards/new`, or auth — bc883c6

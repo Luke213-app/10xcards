@@ -1,7 +1,7 @@
 ---
 change_id: s-03
 title: Browse saved flashcards (S-03)
-status: implementing
+status: implemented
 created: 2026-06-19
 updated: 2026-06-19
 archived_at: null
