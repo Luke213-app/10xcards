@@ -207,13 +207,13 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Build (typecheck + SSR build) passes: `npm run build`
+- [x] 2.1 Linting passes: `npm run lint` — cf7148c
+- [x] 2.2 Build (typecheck + SSR build) passes: `npm run build` — cf7148c
 
 #### Manual
 
 - [ ] 2.3 Signed-in `/cards/new` saves a card persisting with `source = 'manual'` and correct `user_id`
 - [ ] 2.4 After save, fields clear, confirmation + count show, focus returns to Front; second card addable without clicking
-- [x] 2.5 Signed-out `/cards/new` redirects to `/auth/signin`
-- [x] 2.6 Dashboard "Add card manually" CTA and generate-header "Add manually" link both reach `/cards/new`
-- [x] 2.7 No regression to `/dashboard`, `/generate`, or auth
+- [x] 2.5 Signed-out `/cards/new` redirects to `/auth/signin` — cf7148c
+- [x] 2.6 Dashboard "Add card manually" CTA and generate-header "Add manually" link both reach `/cards/new` — cf7148c
+- [x] 2.7 No regression to `/dashboard`, `/generate`, or auth — cf7148c
