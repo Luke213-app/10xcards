@@ -476,25 +476,25 @@ reset` when needed. Seeding uses service_role + explicit `user_id` (RLS bypass).
 
 #### Automated
 
-- [x] 3.1 Generate specs pass: `npm run test:e2e -- generate/`
-- [x] 3.2 Type check passes: `npm run build`
-- [x] 3.3 Lint passes: `npm run lint`
+- [x] 3.1 Generate specs pass: `npm run test:e2e -- generate/` — b6077de
+- [x] 3.2 Type check passes: `npm run build` — b6077de
+- [x] 3.3 Lint passes: `npm run lint` — b6077de
 
 #### Manual
 
-- [x] 3.4 Headed run shows loading + correct terminal screen per case
-- [x] 3.5 `data-testid` hooks do not alter visible UI
+- [x] 3.4 Headed run shows loading + correct terminal screen per case — b6077de
+- [x] 3.5 `data-testid` hooks do not alter visible UI — b6077de
 
 ### Phase 4: R#1 — Cross-User Isolation (API-level)
 
 #### Automated
 
-- [ ] 4.1 Isolation spec passes: `npm run test:e2e -- isolation/`
-- [ ] 4.2 Lint passes: `npm run lint`
+- [x] 4.1 Isolation spec passes: `npm run test:e2e -- isolation/`
+- [x] 4.2 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 4.3 404 (not 403/200) and B's row unchanged (verified in Studio)
+- [x] 4.3 404 (not 403/200) and B's row unchanged (verified in Studio)
 
 ### Phase 5: CI Wiring + Documentation
 
