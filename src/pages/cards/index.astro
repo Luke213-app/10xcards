@@ -3,12 +3,12 @@ import Layout from "@/layouts/Layout.astro";
 import { createClient } from "@/lib/supabase";
 import { listFlashcards } from "@/lib/services/flashcards";
 import CardList from "@/components/cards/CardList";
+import AppHeader from "@/components/AppHeader.astro";
+import AppFooter from "@/components/AppFooter.astro";
 
 // Auth is enforced by middleware (PROTECTED_ROUTES). The list is fetched
 // server-side via the RLS-scoped client (a user only ever sees their own cards)
 // and handed to the CardList island, which owns edit/delete interactivity.
-const { user } = Astro.locals;
-
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 // Distinguish "secrets unset / cannot load" from "genuinely empty collection".
 const configured = supabase !== null;
@@ -16,24 +16,15 @@ const cards = supabase ? await listFlashcards(supabase) : [];
 ---
 
 <Layout title="My cards">
-  <main class="bg-cosmic min-h-screen p-4 text-white">
-    <div class="mx-auto w-full max-w-3xl py-10">
-      <header class="mb-8 flex items-center justify-between">
-        <div>
-          <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-            My cards
-          </h1>
-          <p class="mt-1 text-sm text-blue-100/60">
-            Your saved flashcard collection{user?.email ? `, ${user.email}` : ""}.
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <a href="/review" class="text-sm text-purple-300 hover:underline">Review</a>
-          <a href="/cards/new" class="text-sm text-purple-300 hover:underline">Add manually</a>
-          <a href="/generate" class="text-sm text-purple-300 hover:underline">Generate</a>
-          <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
-        </div>
-      </header>
+  <main class="bg-cosmic min-h-screen p-4 text-white sm:p-8">
+    <AppHeader />
+    <div class="mx-auto w-full max-w-3xl py-6">
+      <div class="mb-8">
+        <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
+          My cards
+        </h1>
+        <p class="mt-1 text-sm text-blue-100/60">Your saved flashcard collection.</p>
+      </div>
 
       {
         !configured ? (
@@ -54,7 +45,7 @@ const cards = supabase ? await listFlashcards(supabase) : [];
                 Generate flashcards
               </a>
               <a
-                href="/cards/new"
+                href="/generate?mode=manual"
                 class="inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
               >
                 Add card manually
@@ -66,5 +57,30 @@ const cards = supabase ? await listFlashcards(supabase) : [];
         )
       }
     </div>
+
+    <AppFooter />
   </main>
+
+  <!-- Floating "Add card" entry → consolidated creation surface -->
+  <a
+    href="/generate"
+    aria-label="Add card"
+    class="fixed right-6 bottom-6 z-20 inline-flex items-center gap-2 rounded-full bg-purple-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-purple-900/40 transition-colors hover:bg-purple-500"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M5 12h14"></path>
+      <path d="M12 5v14"></path>
+    </svg>
+    Add card
+  </a>
 </Layout>
