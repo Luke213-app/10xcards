@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "zen-shadow zen-press bg-primary text-primary-foreground hover:bg-[var(--accent-press)]",
-        destructive: "zen-shadow zen-press bg-destructive text-white",
+        destructive: "zen-shadow zen-press bg-destructive text-destructive-foreground",
         outline: "zen-shadow zen-press bg-background text-foreground",
         secondary: "zen-shadow zen-press bg-secondary text-secondary-foreground",
         ghost: "text-foreground hover:bg-accent hover:text-accent-foreground",

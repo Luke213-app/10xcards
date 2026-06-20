@@ -33,6 +33,7 @@
   --accent-foreground: #7c3aed;
 
   --destructive: #b91c1c;
+  --destructive-foreground: #ffffff;
 
   /* ---- Borders & focus ---- */
   --border: #1a1a1a; /* the 2px hard brutalist border */
@@ -96,6 +97,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

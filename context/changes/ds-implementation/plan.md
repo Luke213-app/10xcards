@@ -435,27 +435,27 @@ Restyle the spaced-repetition review screen with zen-faithful grade buttons, the
 
 #### Automated
 
-- [x] 5.1 Linting passes: `npm run lint`
-- [x] 5.2 Production build succeeds: `npm run build`
-- [x] 5.3 No dark/glass utilities left in generate/create files
+- [x] 5.1 Linting passes: `npm run lint` — 7ebd7e7
+- [x] 5.2 Production build succeeds: `npm run build` — 7ebd7e7
+- [x] 5.3 No dark/glass utilities left in generate/create files — 7ebd7e7
 
 #### Manual
 
-- [x] 5.4 `/generate` (+ `/cards/new` redirect) render fully zen in AI and Manual modes
-- [x] 5.5 AI generate → review → accept/reject works; counters/progress behave
-- [x] 5.6 Manual save works and refocuses for next card
-- [x] 5.7 `CreateCard` inside the cards modal also looks zen
+- [x] 5.4 `/generate` (+ `/cards/new` redirect) render fully zen in AI and Manual modes — 7ebd7e7
+- [x] 5.5 AI generate → review → accept/reject works; counters/progress behave — 7ebd7e7
+- [x] 5.6 Manual save works and refocuses for next card — 7ebd7e7
+- [x] 5.7 `CreateCard` inside the cards modal also looks zen — 7ebd7e7
 
 ### Phase 6: Review Session + Final Sweep
 
 #### Automated
 
-- [ ] 6.1 Linting passes: `npm run lint`
-- [ ] 6.2 Production build succeeds: `npm run build`
-- [ ] 6.3 Repo-wide dark/glass/gradient sweep clean across `src/`
+- [x] 6.1 Linting passes: `npm run lint`
+- [x] 6.2 Production build succeeds: `npm run build`
+- [x] 6.3 Repo-wide dark/glass/gradient sweep clean across `src/`
 
 #### Manual
 
-- [ ] 6.4 `/review` renders fully zen; flip + all four grades work; grade buttons zen-faithful and distinguishable
-- [ ] 6.5 Full walkthrough of all routes shows one consistent zen look with brand fonts
-- [ ] 6.6 No visual regressions in any flow
+- [x] 6.4 `/review` renders fully zen; flip + all four grades work; grade buttons zen-faithful and distinguishable
+- [x] 6.5 Full walkthrough of all routes shows one consistent zen look with brand fonts
+- [x] 6.6 No visual regressions in any flow
