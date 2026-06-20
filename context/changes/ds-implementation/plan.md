@@ -394,28 +394,28 @@ Restyle the spaced-repetition review screen with zen-faithful grade buttons, the
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Production build succeeds: `npm run build`
-- [x] 2.3 No dark/glass utilities left in landing + auth files
+- [x] 2.1 Linting passes: `npm run lint` — 7e50b4a
+- [x] 2.2 Production build succeeds: `npm run build` — 7e50b4a
+- [x] 2.3 No dark/glass utilities left in landing + auth files — 7e50b4a
 
 #### Manual
 
-- [x] 2.4 `/`, `/auth/signin`, `/auth/signup`, `/auth/confirm-email` render fully zen
-- [x] 2.5 Sign-in/sign-up submit + validation/server errors work
-- [x] 2.6 Password visibility toggle works
+- [x] 2.4 `/`, `/auth/signin`, `/auth/signup`, `/auth/confirm-email` render fully zen — 7e50b4a
+- [x] 2.5 Sign-in/sign-up submit + validation/server errors work — 7e50b4a
+- [x] 2.6 Password visibility toggle works — 7e50b4a
 
 ### Phase 3: Dashboard
 
 #### Automated
 
-- [ ] 3.1 Linting passes: `npm run lint`
-- [ ] 3.2 Production build succeeds: `npm run build`
-- [ ] 3.3 No dark/glass/gradient utilities left in `dashboard.astro`
+- [x] 3.1 Linting passes: `npm run lint`
+- [x] 3.2 Production build succeeds: `npm run build`
+- [x] 3.3 No dark/glass/gradient utilities left in `dashboard.astro`
 
 #### Manual
 
-- [ ] 3.4 `/dashboard` renders fully zen; three actions correct with hover press
-- [ ] 3.5 Navigation to `/review` and `/cards` works
+- [x] 3.4 `/dashboard` renders fully zen; three actions correct with hover press
+- [x] 3.5 Navigation to `/review` and `/cards` works
 
 ### Phase 4: My Cards
 

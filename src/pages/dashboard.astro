@@ -10,18 +10,18 @@ import AppFooter from "@/components/AppFooter.astro";
 ---
 
 <Layout title="Dashboard">
-  <div class="bg-cosmic flex min-h-screen flex-col p-4 text-white sm:p-8">
+  <div class="flex min-h-screen flex-col p-4 sm:p-8">
     <main class="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center py-16">
-      <h1 class="mb-12 text-center text-4xl font-bold sm:text-5xl">
-        What are you up to <span class="bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent"
-          >today?</span
-        >
+      <h1 class="text-foreground mb-12 text-center font-sans text-4xl font-extrabold tracking-[-0.02em] sm:text-5xl">
+        What are you up to <span class="text-primary">today?</span>
       </h1>
 
       <div class="space-y-4">
-        <a href="/review" class="group block">
-          <Panel class="flex items-center gap-4 p-5 transition-colors group-hover:bg-white/10">
-            <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+        <a href="/review" class="block">
+          <Panel class="zen-press flex items-center gap-4 p-5">
+            <span
+              class="border-foreground bg-accent text-accent-foreground flex size-11 items-center justify-center border-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -40,13 +40,15 @@ import AppFooter from "@/components/AppFooter.astro";
                 <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
               </svg>
             </span>
-            <span class="text-lg font-medium text-white">I want to Learn</span>
+            <span class="text-foreground text-base font-medium tracking-[0.08em] uppercase">I want to Learn</span>
           </Panel>
         </a>
 
-        <a href="/cards" class="group block">
-          <Panel class="flex items-center gap-4 p-5 transition-colors group-hover:bg-white/10">
-            <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+        <a href="/cards" class="block">
+          <Panel class="zen-press flex items-center gap-4 p-5">
+            <span
+              class="border-foreground bg-accent text-accent-foreground flex size-11 items-center justify-center border-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -63,12 +65,14 @@ import AppFooter from "@/components/AppFooter.astro";
                 <path d="M9 21V9"></path>
               </svg>
             </span>
-            <span class="text-lg font-medium text-white">Browse my cards</span>
+            <span class="text-foreground text-base font-medium tracking-[0.08em] uppercase">Browse my cards</span>
           </Panel>
         </a>
 
         <Panel class="flex items-center gap-4 p-5 opacity-60">
-          <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+          <span
+            class="border-foreground bg-accent text-accent-foreground flex size-11 items-center justify-center border-2"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -87,8 +91,8 @@ import AppFooter from "@/components/AppFooter.astro";
               <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path>
             </svg>
           </span>
-          <span class="text-lg font-medium text-white">Create a deck</span>
-          <Badge class="ml-auto text-purple-200">Coming soon</Badge>
+          <span class="text-foreground text-base font-medium tracking-[0.08em] uppercase">Create a deck</span>
+          <Badge class="ml-auto">Coming soon</Badge>
         </Panel>
       </div>
     </main>
