@@ -29,3 +29,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local-only design system skill
+.claude/skills/zen/
