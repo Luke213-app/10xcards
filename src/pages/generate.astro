@@ -1,31 +1,28 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import GenerateView from "@/components/generate/GenerateView";
+import CreateCard from "@/components/generate/CreateCard";
+import AppHeader from "@/components/AppHeader.astro";
+import AppFooter from "@/components/AppFooter.astro";
 
-// Auth is enforced by middleware (PROTECTED_ROUTES). The island owns all state.
-const { user } = Astro.locals;
+// Auth is enforced by middleware (PROTECTED_ROUTES). The CreateCard island owns
+// all state; the toggle's initial mode comes from ?mode (default "ai"), so
+// /cards/new -> /generate?mode=manual opens directly in the Manual flow.
+const initialMode = Astro.url.searchParams.get("mode") === "manual" ? "manual" : "ai";
 ---
 
-<Layout title="Generate flashcards">
-  <main class="bg-cosmic min-h-screen p-4 text-white">
-    <div class="mx-auto w-full max-w-3xl py-10">
-      <header class="mb-8 flex items-center justify-between">
-        <div>
-          <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-            Generate flashcards
-          </h1>
-          <p class="mt-1 text-sm text-blue-100/60">
-            Paste your notes and let AI turn them into study cards{user?.email ? `, ${user.email}` : ""}.
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <a href="/review" class="text-sm text-purple-300 hover:underline">Review</a>
-          <a href="/cards/new" class="text-sm text-purple-300 hover:underline">Add manually</a>
-          <a href="/cards" class="text-sm text-purple-300 hover:underline">My cards</a>
-          <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
-        </div>
-      </header>
-      <GenerateView client:load />
+<Layout title="Create flashcards">
+  <main class="bg-cosmic min-h-screen p-4 text-white sm:p-8">
+    <AppHeader />
+    <div class="mx-auto w-full max-w-3xl py-6">
+      <div class="mb-8">
+        <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
+          Create flashcards
+        </h1>
+        <p class="mt-1 text-sm text-blue-100/60">Generate cards from your notes with AI, or write one by hand.</p>
+      </div>
+      <CreateCard client:load initialMode={initialMode} />
     </div>
+
+    <AppFooter />
   </main>
 </Layout>
