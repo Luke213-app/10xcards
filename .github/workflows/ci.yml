@@ -39,8 +39,16 @@ jobs:
       # applies the migrations in supabase/migrations/; `migration up` is an
       # explicit, idempotent re-apply so a missing migration fails loudly here
       # rather than at runtime.
+      #
+      # Start ONLY the services the suite uses — postgres (core, implicit) +
+      # gotrue (auth/admin API) + postgrest (REST for flashcards) + kong (the
+      # :54321 gateway). Excluding the rest (notably edge-runtime, whose
+      # health-check 502'd and flaked the job) makes start faster and far less
+      # flaky. logflare+vector are excluded together (logflare depends on vector).
       - name: Start local Supabase
-        run: npx supabase start
+        run: >-
+          npx supabase start
+          -x edge-runtime,studio,imgproxy,realtime,storage-api,mailpit,postgres-meta,logflare,vector,supavisor
       - name: Apply migrations
         run: npx supabase migration up --local
 
