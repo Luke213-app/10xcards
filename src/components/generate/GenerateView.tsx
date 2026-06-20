@@ -111,6 +111,7 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
           </label>
           <Textarea
             id="source"
+            data-testid="generate-source"
             value={sourceText}
             onChange={(e) => {
               setSourceText(e.target.value);
@@ -130,7 +131,7 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
               {sourceText.length.toLocaleString()} / {MAX_SOURCE.toLocaleString()}
               {overCap && " — over the limit"}
             </span>
-            <Button type="button" disabled={!canGenerate} onClick={handleGenerate}>
+            <Button type="button" data-testid="generate-submit" disabled={!canGenerate} onClick={handleGenerate}>
               {status === "generating" ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
@@ -145,7 +146,7 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
             </Button>
           </div>
           {status === "generating" && (
-            <div className="mt-4">
+            <div className="mt-4" data-testid="generate-loading">
               <div className="border-foreground bg-muted h-1.5 w-full overflow-hidden border-2">
                 <div className="bg-primary h-full w-1/3 animate-pulse" />
               </div>
@@ -172,7 +173,7 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
           </div>
 
           {candidates.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="space-y-4" data-testid="generate-review">
               {candidates.map((c) => (
                 <CandidateCard
                   key={c.id}
@@ -195,14 +196,21 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
       )}
 
       {/* Empty — no usable candidates, offer manual create */}
-      {status === "empty" && <EmptyState onReset={reset} savedCount={savedCount} onSaved={onSaved} />}
+      {status === "empty" && (
+        <div data-testid="generate-empty">
+          <EmptyState onReset={reset} savedCount={savedCount} onSaved={onSaved} />
+        </div>
+      )}
 
       {/* Error */}
       {status === "error" && (
-        <section className="border-destructive bg-card border-2 p-8 text-center shadow-[3px_3px_0_var(--foreground)]">
+        <section
+          data-testid="generate-error"
+          className="border-destructive bg-card border-2 p-8 text-center shadow-[3px_3px_0_var(--foreground)]"
+        >
           <AlertCircle className="text-destructive mx-auto mb-3 size-8" />
           <p className="text-foreground">Something went wrong while generating. Your text is still here.</p>
-          <Button type="button" onClick={handleGenerate} className="mt-4">
+          <Button type="button" data-testid="generate-retry" onClick={handleGenerate} className="mt-4">
             <RotateCcw className="size-4" />
             Retry
           </Button>

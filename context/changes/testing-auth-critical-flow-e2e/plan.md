@@ -464,26 +464,26 @@ reset` when needed. Seeding uses service_role + explicit `user_id` (RLS bypass).
 
 #### Automated
 
-- [x] 2.1 Auth specs pass: `npm run test:e2e -- auth/`
-- [x] 2.2 Lint passes: `npm run lint`
+- [x] 2.1 Auth specs pass: `npm run test:e2e -- auth/` — 3274e93
+- [x] 2.2 Lint passes: `npm run lint` — 3274e93
 
 #### Manual
 
-- [x] 2.3 Redirect target + authed render correct (headed)
-- [x] 2.4 Signup→confirm→login path works against local DB
+- [x] 2.3 Redirect target + authed render correct (headed) — 3274e93
+- [x] 2.4 Signup→confirm→login path works against local DB — 3274e93
 
 ### Phase 3: R#4 — Generation Progress / Terminal State
 
 #### Automated
 
-- [ ] 3.1 Generate specs pass: `npm run test:e2e -- generate/`
-- [ ] 3.2 Type check passes: `npm run build`
-- [ ] 3.3 Lint passes: `npm run lint`
+- [x] 3.1 Generate specs pass: `npm run test:e2e -- generate/`
+- [x] 3.2 Type check passes: `npm run build`
+- [x] 3.3 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 3.4 Headed run shows loading + correct terminal screen per case
-- [ ] 3.5 `data-testid` hooks do not alter visible UI
+- [x] 3.4 Headed run shows loading + correct terminal screen per case
+- [x] 3.5 `data-testid` hooks do not alter visible UI
 
 ### Phase 4: R#1 — Cross-User Isolation (API-level)
 
