@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Sparkles, Loader2, AlertCircle, RotateCcw, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/Textarea";
 import { cn } from "@/lib/utils";
 import { CandidateCard, type Candidate } from "@/components/generate/CandidateCard";
 import ManualCardForm from "@/components/manual/ManualCardForm";
@@ -101,11 +102,14 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
     <div className="space-y-6">
       {/* Paste + generate — always visible except while reviewing/empty/error swaps it out */}
       {(status === "idle" || status === "generating") && (
-        <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <label htmlFor="source" className="mb-2 block text-sm font-medium text-blue-100/80">
+        <section className="zen-shadow bg-card p-5">
+          <label
+            htmlFor="source"
+            className="text-muted-foreground mb-2 block text-[11px] font-medium tracking-[0.1em] uppercase"
+          >
             Source text
           </label>
-          <textarea
+          <Textarea
             id="source"
             value={sourceText}
             onChange={(e) => {
@@ -114,19 +118,19 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
             disabled={status === "generating"}
             rows={10}
             placeholder="Paste up to 10,000 characters of notes…"
-            className="w-full resize-y rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-white outline-none focus:border-purple-400/60 disabled:opacity-50"
+            className="text-sm"
           />
           <div className="mt-2 flex items-center justify-between">
-            <span className={cn("text-xs", overCap ? "text-red-300" : nearCap ? "text-amber-300" : "text-blue-100/50")}>
+            <span
+              className={cn(
+                "text-xs",
+                overCap ? "text-destructive" : nearCap ? "text-primary" : "text-muted-foreground",
+              )}
+            >
               {sourceText.length.toLocaleString()} / {MAX_SOURCE.toLocaleString()}
               {overCap && " — over the limit"}
             </span>
-            <Button
-              type="button"
-              disabled={!canGenerate}
-              onClick={handleGenerate}
-              className="bg-purple-600 text-white hover:bg-purple-500"
-            >
+            <Button type="button" disabled={!canGenerate} onClick={handleGenerate}>
               {status === "generating" ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
@@ -142,10 +146,10 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
           </div>
           {status === "generating" && (
             <div className="mt-4">
-              <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-                <div className="h-full w-1/3 animate-pulse rounded-full bg-purple-400" />
+              <div className="border-foreground bg-muted h-1.5 w-full overflow-hidden border-2">
+                <div className="bg-primary h-full w-1/3 animate-pulse" />
               </div>
-              <p className="mt-2 text-xs text-blue-100/60">Working on your cards — this can take a few seconds…</p>
+              <p className="text-muted-foreground mt-2 text-xs">Working on your cards — this can take a few seconds…</p>
             </div>
           )}
         </section>
@@ -155,19 +159,13 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
       {status === "review" && (
         <section>
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm text-blue-100/70">
+            <p className="text-muted-foreground text-sm">
               {candidates.length > 0
                 ? `${candidates.length} candidate${candidates.length === 1 ? "" : "s"} to review`
                 : "All candidates handled"}
-              {savedCount > 0 && <span className="ml-2 text-green-300">· {savedCount} saved</span>}
+              {savedCount > 0 && <span className="text-primary ml-2">· {savedCount} saved</span>}
             </p>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={reset}
-              className="border-white/20 bg-transparent text-white hover:bg-white/10"
-            >
+            <Button type="button" variant="outline" size="sm" onClick={reset}>
               <RotateCcw className="size-4" />
               Start over
             </Button>
@@ -186,9 +184,11 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
               ))}
             </ul>
           ) : (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-              <Check className="mx-auto mb-2 size-8 text-green-300" />
-              <p className="text-blue-100/80">You&apos;re all done. {savedCount} card(s) saved to your collection.</p>
+            <div className="zen-shadow bg-card p-8 text-center">
+              <Check className="text-primary mx-auto mb-2 size-8" />
+              <p className="text-muted-foreground">
+                You&apos;re all done. {savedCount} card(s) saved to your collection.
+              </p>
             </div>
           )}
         </section>
@@ -199,10 +199,10 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
 
       {/* Error */}
       {status === "error" && (
-        <section className="rounded-2xl border border-red-400/30 bg-red-500/10 p-8 text-center">
-          <AlertCircle className="mx-auto mb-3 size-8 text-red-300" />
-          <p className="text-blue-100/90">Something went wrong while generating. Your text is still here.</p>
-          <Button type="button" onClick={handleGenerate} className="mt-4 bg-purple-600 text-white hover:bg-purple-500">
+        <section className="border-destructive bg-card border-2 p-8 text-center shadow-[3px_3px_0_var(--foreground)]">
+          <AlertCircle className="text-destructive mx-auto mb-3 size-8" />
+          <p className="text-foreground">Something went wrong while generating. Your text is still here.</p>
+          <Button type="button" onClick={handleGenerate} className="mt-4">
             <RotateCcw className="size-4" />
             Retry
           </Button>
@@ -227,19 +227,14 @@ function EmptyState({
       intro="The AI couldn't extract flashcards. You can still add one by hand below."
       onSaved={onSaved}
       actions={
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onReset}
-          className="border-white/20 bg-transparent text-white hover:bg-white/10"
-        >
+        <Button type="button" variant="outline" onClick={onReset}>
           <RotateCcw className="size-4" />
           Start over
         </Button>
       }
       footer={
         savedCount > 0 ? (
-          <p className="text-xs text-blue-100/50">{savedCount} card(s) saved earlier this session.</p>
+          <p className="text-muted-foreground text-xs">{savedCount} card(s) saved earlier this session.</p>
         ) : null
       }
     />

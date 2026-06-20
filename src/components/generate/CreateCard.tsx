@@ -25,11 +25,7 @@ export default function CreateCard({ initialMode = "ai", onSaved }: Props) {
 
   return (
     <div className="space-y-6">
-      <div
-        className="inline-flex rounded-xl border border-white/10 bg-white/5 p-1"
-        role="tablist"
-        aria-label="Creation mode"
-      >
+      <div className="border-foreground bg-card inline-flex border-2 p-1" role="tablist" aria-label="Creation mode">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = mode === tab.value;
@@ -43,8 +39,8 @@ export default function CreateCard({ initialMode = "ai", onSaved }: Props) {
                 setMode(tab.value);
               }}
               className={cn(
-                "inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm font-medium transition-colors",
-                active ? "bg-purple-600 text-white" : "text-blue-100/70 hover:text-white",
+                "inline-flex items-center gap-2 px-4 py-1.5 text-[11px] font-medium tracking-[0.08em] uppercase transition-colors",
+                active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
               <Icon className="size-4" />
