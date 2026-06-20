@@ -1,10 +1,23 @@
 name: CI
 
 on:
-  push:
-    branches: [master]
+  # Run only on PRs to master, and only when code/config that affects the
+  # build/lint/e2e suite actually changes — docs-only changes (markdown,
+  # context/**) skip CI entirely. Direct pushes to master are NOT tested, so
+  # land changes via PRs (consider protecting master to require it).
   pull_request:
     branches: [master]
+    paths:
+      - "src/**"
+      - "e2e/**"
+      - "supabase/**"
+      - "astro.config.mjs"
+      - "tsconfig.json"
+      - "eslint.config.js"
+      - "playwright.config.ts"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/ci.yml"
 
 jobs:
   ci:
