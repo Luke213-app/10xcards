@@ -22,7 +22,7 @@ async function saveFlashcard(front: string, back: string, source: FlashcardSourc
   }
 }
 
-export default function GenerateView() {
+export default function GenerateView({ onSaved }: { onSaved?: () => void } = {}) {
   const [status, setStatus] = useState<Status>("idle");
   const [sourceText, setSourceText] = useState("");
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -79,6 +79,7 @@ export default function GenerateView() {
       await saveFlashcard(card.front.trim(), card.back.trim(), source);
       setCandidates((prev) => prev.filter((c) => c.id !== id));
       setSavedCount((n) => n + 1);
+      onSaved?.();
     } catch {
       setCandidates((prev) =>
         prev.map((c) => (c.id === id ? { ...c, saving: false, error: "Couldn't save. Try again." } : c)),
@@ -194,7 +195,7 @@ export default function GenerateView() {
       )}
 
       {/* Empty — no usable candidates, offer manual create */}
-      {status === "empty" && <EmptyState onReset={reset} savedCount={savedCount} />}
+      {status === "empty" && <EmptyState onReset={reset} savedCount={savedCount} onSaved={onSaved} />}
 
       {/* Error */}
       {status === "error" && (
@@ -211,11 +212,20 @@ export default function GenerateView() {
   );
 }
 
-function EmptyState({ onReset, savedCount }: { onReset: () => void; savedCount: number }) {
+function EmptyState({
+  onReset,
+  savedCount,
+  onSaved,
+}: {
+  onReset: () => void;
+  savedCount: number;
+  onSaved?: () => void;
+}) {
   return (
     <ManualCardForm
       heading="No usable cards from this text"
       intro="The AI couldn't extract flashcards. You can still add one by hand below."
+      onSaved={onSaved}
       actions={
         <Button
           type="button"

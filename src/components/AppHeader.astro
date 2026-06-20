@@ -1,17 +1,18 @@
 ---
 // The single authenticated top bar, replacing the four divergent per-page
-// header rows. Server-rendered (no hydration); reads the resolved user only to
-// stay consistent with the rest of the chrome. Sign-out lives in AppFooter.
+// header rows. Server-rendered (no hydration). Sign-out lives behind the
+// account avatar on the right (hover / keyboard-focus reveals the menu).
 const { pathname } = Astro.url;
+const { user } = Astro.locals;
 
 const navLinks = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Learn", href: "/review" },
   { label: "Cards", href: "/cards" },
-  { label: "Add card", href: "/generate" },
 ];
 
 const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+const initial = (user?.email?.[0] ?? "?").toUpperCase();
 ---
 
 <header class="mx-auto mb-8 flex w-full max-w-5xl items-center justify-between gap-4">
@@ -37,20 +38,46 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(`${h
     <span class="text-base font-semibold">Recall</span>
   </a>
 
-  <nav class="flex items-center gap-1 text-sm sm:gap-2" aria-label="Primary">
-    {
-      navLinks.map((link) => (
-        <a
-          href={link.href}
-          aria-current={isActive(link.href) ? "page" : undefined}
-          class:list={[
-            "rounded-lg px-3 py-1.5 transition-colors hover:bg-white/10 hover:text-white",
-            isActive(link.href) ? "bg-white/10 text-white" : "text-blue-100/70",
-          ]}
-        >
-          {link.label}
-        </a>
-      ))
-    }
-  </nav>
+  <div class="flex items-center gap-2 sm:gap-3">
+    <nav class="flex items-center gap-1 text-sm sm:gap-2" aria-label="Primary">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            aria-current={isActive(link.href) ? "page" : undefined}
+            class:list={[
+              "rounded-lg px-3 py-1.5 transition-colors hover:bg-white/10 hover:text-white",
+              isActive(link.href) ? "bg-white/10 text-white" : "text-blue-100/70",
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Account: avatar reveals a sign-out menu on hover / keyboard focus -->
+    <div class="group relative">
+      <button
+        type="button"
+        aria-label="Account menu"
+        class="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60"
+      >
+        {initial}
+      </button>
+      <div
+        class="invisible absolute top-full right-0 z-30 mt-2 min-w-[11rem] rounded-xl border border-white/10 bg-[#0f1529] p-1 opacity-0 shadow-xl transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
+      >
+        {user?.email && <p class="truncate px-3 py-1.5 text-xs text-blue-100/50">{user.email}</p>}
+        <form method="POST" action="/api/auth/signout">
+          <button
+            type="submit"
+            class="w-full rounded-lg px-3 py-1.5 text-left text-sm text-blue-100/80 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            Sign out
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </header>
