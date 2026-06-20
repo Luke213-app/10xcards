@@ -354,9 +354,9 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Manual
 
-- [ ] 1.4 AppHeader renders brand + nav, keyboard-navigable, targets resolve
-- [ ] 1.5 AppFooter sign-out logs out and lands on `/`
-- [ ] 1.6 Primitives render visually identical to prior inline strings
+- [x] 1.4 AppHeader renders brand + nav, keyboard-navigable, targets resolve
+- [x] 1.5 AppFooter sign-out logs out and lands on `/`
+- [x] 1.6 Primitives render visually identical to prior inline strings
 
 ### Phase 2: Auth-aware routing
 
@@ -367,10 +367,10 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Manual
 
-- [ ] 2.3 Logged-in user redirected from `/`, `/auth/signin`, `/auth/signup` to `/dashboard`
-- [ ] 2.4 Logged-out user still sees `/` and reaches auth pages
-- [ ] 2.5 `/auth/confirm-email` reachable after sign-up (not trapped)
-- [ ] 2.6 Fresh sign-in lands on `/dashboard` (single redirect)
+- [x] 2.3 Logged-in user redirected from `/`, `/auth/signin`, `/auth/signup` to `/dashboard`
+- [x] 2.4 Logged-out user still sees `/` and reaches auth pages
+- [x] 2.5 `/auth/confirm-email` reachable after sign-up (not trapped)
+- [x] 2.6 Fresh sign-in lands on `/dashboard` (single redirect)
 
 ### Phase 3: Landing redesign (R1)
 
@@ -381,9 +381,9 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Manual
 
-- [ ] 3.3 Logged-out `/` matches reference (hero, badge, 3 cards, header)
-- [ ] 3.4 Sign in → `/auth/signin`; Sign up → `/auth/signup`
-- [ ] 3.5 Logged-in visitor never sees the landing (redirected)
+- [x] 3.3 Logged-out `/` matches reference (hero, badge, 3 cards, header)
+- [x] 3.4 Sign in → `/auth/signin`; Sign up → `/auth/signup`
+- [x] 3.5 Logged-in visitor never sees the landing (redirected)
 
 ### Phase 4: Dashboard redesign (R2)
 
@@ -394,9 +394,9 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Manual
 
-- [ ] 4.3 Dashboard matches reference; Learn → `/review`, Browse my cards → `/cards`
-- [ ] 4.4 "Create a deck" is visibly inert (no navigation)
-- [ ] 4.5 Footer sign-out works from the dashboard
+- [x] 4.3 Dashboard matches reference; Learn → `/review`, Browse my cards → `/cards`
+- [x] 4.4 "Create a deck" is visibly inert (no navigation)
+- [x] 4.5 Footer sign-out works from the dashboard
 
 ### Phase 5: Cards page + creation entry (R3)
 
@@ -407,21 +407,21 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Manual
 
-- [ ] 5.3 `/cards` shows shared header + footer; old header row gone
-- [ ] 5.4 Card list + empty state behave as before (edit/delete work)
-- [ ] 5.5 Floating "Add card" button navigates to `/generate`
+- [x] 5.3 `/cards` shows shared header + footer; old header row gone
+- [x] 5.4 Card list + empty state behave as before (edit/delete work)
+- [x] 5.5 Floating "Add card" button navigates to `/generate`
 
 ### Phase 6: Creation consolidation + remaining pages (R4)
 
 #### Automated
 
-- [x] 6.1 Linting passes: `npm run lint`
-- [x] 6.2 Production build succeeds: `npm run build`
-- [x] 6.3 `grep -rn "/cards/new" src/` shows only the intended redirect + links
+- [x] 6.1 Linting passes: `npm run lint` — 99313ed
+- [x] 6.2 Production build succeeds: `npm run build` — 99313ed
+- [x] 6.3 `grep -rn "/cards/new" src/` shows only the intended redirect + links — 99313ed
 
 #### Manual
 
-- [ ] 6.4 `/generate` toggle: AI default generates+saves; Manual saves
-- [ ] 6.5 `/cards/new` redirects to `/generate?mode=manual` (opens Manual)
-- [ ] 6.6 `/generate` and `/review` show shared header + footer
-- [ ] 6.7 From dashboard, creation reachable (Browse → `/cards` → Add card); no dead links
+- [x] 6.4 `/generate` toggle: AI default generates+saves; Manual saves
+- [x] 6.5 `/cards/new` redirects to `/generate?mode=manual` (opens Manual)
+- [x] 6.6 `/generate` and `/review` show shared header + footer
+- [x] 6.7 From dashboard, creation reachable (Browse → `/cards` → Add card); no dead links
