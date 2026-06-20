@@ -1,6 +1,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/Textarea";
 
 // Single source of truth for hand-authoring a flashcard. Rendered both by the
 // dedicated /cards/new page (S-02) and by the generate flow's empty-state
@@ -63,12 +64,12 @@ export default function ManualCardForm({ heading, intro, actions, footer, onSave
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-6">
-      <h2 className="text-lg font-semibold text-white">{heading}</h2>
-      <p className="mt-1 text-sm text-blue-100/60">{intro}</p>
+    <section className="zen-shadow bg-card p-6">
+      <h2 className="text-foreground font-sans text-lg font-extrabold">{heading}</h2>
+      <p className="text-muted-foreground mt-1 text-sm">{intro}</p>
 
       <div className="mt-4 space-y-3">
-        <textarea
+        <Textarea
           ref={frontRef}
           value={front}
           maxLength={FIELD_MAX}
@@ -77,9 +78,9 @@ export default function ManualCardForm({ heading, intro, actions, footer, onSave
           }}
           rows={2}
           placeholder="Front (question)"
-          className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60"
+          className="text-sm"
         />
-        <textarea
+        <Textarea
           value={back}
           maxLength={FIELD_MAX}
           onChange={(e) => {
@@ -87,17 +88,12 @@ export default function ManualCardForm({ heading, intro, actions, footer, onSave
           }}
           rows={3}
           placeholder="Back (answer)"
-          className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60"
+          className="text-sm"
         />
-        {error && <p className="text-sm text-red-300">{error}</p>}
-        {savedCount > 0 && <p className="text-sm text-green-300">{savedCount} card(s) saved.</p>}
+        {error && <p className="text-destructive text-sm">{error}</p>}
+        {savedCount > 0 && <p className="text-primary text-sm">{savedCount} card(s) saved.</p>}
         <div className="flex gap-2">
-          <Button
-            type="button"
-            disabled={!canSave}
-            onClick={save}
-            className="bg-purple-600 text-white hover:bg-purple-500"
-          >
+          <Button type="button" disabled={!canSave} onClick={save}>
             {saving ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
             Save card
           </Button>

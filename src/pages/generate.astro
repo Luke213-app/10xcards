@@ -11,14 +11,12 @@ const initialMode = Astro.url.searchParams.get("mode") === "manual" ? "manual" :
 ---
 
 <Layout title="Create flashcards">
-  <div class="bg-cosmic flex min-h-screen flex-col p-4 text-white sm:p-8">
+  <div class="flex min-h-screen flex-col p-4 sm:p-8">
     <AppHeader />
     <main class="mx-auto w-full max-w-3xl flex-1 py-6">
       <div class="mb-8">
-        <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-          Create flashcards
-        </h1>
-        <p class="mt-1 text-sm text-blue-100/60">Generate cards from your notes with AI, or write one by hand.</p>
+        <h1 class="text-foreground font-sans text-3xl font-extrabold tracking-[-0.02em]">Create flashcards</h1>
+        <p class="text-muted-foreground mt-1 text-sm">Generate cards from your notes with AI, or write one by hand.</p>
       </div>
       <CreateCard client:load initialMode={initialMode} />
     </main>

@@ -1,6 +1,6 @@
 import { Check, X, Loader2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/Textarea";
 
 export interface Candidate {
   id: string;
@@ -29,39 +29,43 @@ export function CandidateCard({ candidate, onChange, onAccept, onReject }: Props
   const invalid = !candidate.front.trim() || !candidate.back.trim();
 
   return (
-    <li className="rounded-xl border border-white/10 bg-white/5 p-4">
+    <li className="zen-shadow bg-card p-4">
       <div className="mb-3 flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-0.5 text-xs text-blue-100/70">
+        <span className="border-foreground bg-accent text-accent-foreground inline-flex items-center gap-1.5 border-2 px-2.5 py-0.5 text-[11px] font-medium tracking-[0.1em] uppercase">
           {edited && <Pencil className="size-3" />}
           {edited ? "edited" : "AI-generated"}
         </span>
       </div>
 
-      <label className="mb-1 block text-xs font-medium text-blue-100/60">Front</label>
-      <textarea
+      <label className="text-muted-foreground mb-1 block text-[11px] font-medium tracking-[0.1em] uppercase">
+        Front
+      </label>
+      <Textarea
         value={candidate.front}
         maxLength={FIELD_MAX}
         disabled={disabled}
         onChange={(e) => {
           onChange(candidate.id, "front", e.target.value);
         }}
-        className="mb-3 w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60 disabled:opacity-50"
+        className="mb-3 text-sm"
         rows={2}
       />
 
-      <label className="mb-1 block text-xs font-medium text-blue-100/60">Back</label>
-      <textarea
+      <label className="text-muted-foreground mb-1 block text-[11px] font-medium tracking-[0.1em] uppercase">
+        Back
+      </label>
+      <Textarea
         value={candidate.back}
         maxLength={FIELD_MAX}
         disabled={disabled}
         onChange={(e) => {
           onChange(candidate.id, "back", e.target.value);
         }}
-        className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60 disabled:opacity-50"
+        className="text-sm"
         rows={3}
       />
 
-      {candidate.error && <p className="mt-2 text-sm text-red-300">{candidate.error}</p>}
+      {candidate.error && <p className="text-destructive mt-2 text-sm">{candidate.error}</p>}
 
       <div className="mt-3 flex gap-2">
         <Button
@@ -71,7 +75,6 @@ export function CandidateCard({ candidate, onChange, onAccept, onReject }: Props
           onClick={() => {
             onAccept(candidate.id);
           }}
-          className={cn("bg-purple-600 text-white hover:bg-purple-500")}
         >
           {candidate.saving ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}
           Accept
@@ -84,7 +87,6 @@ export function CandidateCard({ candidate, onChange, onAccept, onReject }: Props
           onClick={() => {
             onReject(candidate.id);
           }}
-          className="border-white/20 bg-transparent text-white hover:bg-white/10"
         >
           <X className="size-4" />
           Reject

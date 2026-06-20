@@ -421,30 +421,30 @@ Restyle the spaced-repetition review screen with zen-faithful grade buttons, the
 
 #### Automated
 
-- [x] 4.1 Linting passes: `npm run lint`
-- [x] 4.2 Production build succeeds: `npm run build`
-- [x] 4.3 No dark/glass utilities left in `cards/index.astro`, `CardList.tsx`, `AddCardModal.tsx`
+- [x] 4.1 Linting passes: `npm run lint` — 86f64c4
+- [x] 4.2 Production build succeeds: `npm run build` — 86f64c4
+- [x] 4.3 No dark/glass utilities left in `cards/index.astro`, `CardList.tsx`, `AddCardModal.tsx` — 86f64c4
 
 #### Manual
 
-- [x] 4.4 `/cards` renders fully zen across empty/error/populated states
-- [x] 4.5 Edit/save/cancel/delete per card work
-- [x] 4.6 FAB opens modal; backdrop + Esc dismiss; modal looks zen
+- [x] 4.4 `/cards` renders fully zen across empty/error/populated states — 86f64c4
+- [x] 4.5 Edit/save/cancel/delete per card work — 86f64c4
+- [x] 4.6 FAB opens modal; backdrop + Esc dismiss; modal looks zen — 86f64c4
 
 ### Phase 5: Create Flashcards (Generate + Manual)
 
 #### Automated
 
-- [ ] 5.1 Linting passes: `npm run lint`
-- [ ] 5.2 Production build succeeds: `npm run build`
-- [ ] 5.3 No dark/glass utilities left in generate/create files
+- [x] 5.1 Linting passes: `npm run lint`
+- [x] 5.2 Production build succeeds: `npm run build`
+- [x] 5.3 No dark/glass utilities left in generate/create files
 
 #### Manual
 
-- [ ] 5.4 `/generate` (+ `/cards/new` redirect) render fully zen in AI and Manual modes
-- [ ] 5.5 AI generate → review → accept/reject works; counters/progress behave
-- [ ] 5.6 Manual save works and refocuses for next card
-- [ ] 5.7 `CreateCard` inside the cards modal also looks zen
+- [x] 5.4 `/generate` (+ `/cards/new` redirect) render fully zen in AI and Manual modes
+- [x] 5.5 AI generate → review → accept/reject works; counters/progress behave
+- [x] 5.6 Manual save works and refocuses for next card
+- [x] 5.7 `CreateCard` inside the cards modal also looks zen
 
 ### Phase 6: Review Session + Final Sweep
 
