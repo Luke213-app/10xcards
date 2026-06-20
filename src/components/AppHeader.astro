@@ -1,9 +1,10 @@
 ---
 // The single authenticated top bar, replacing the four divergent per-page
 // header rows. Server-rendered (no hydration). Sign-out lives behind the
-// account avatar on the right (hover / keyboard-focus reveals the menu).
+// account avatar on the right (AccountMenu).
+import AccountMenu from "@/components/AccountMenu.astro";
+
 const { pathname } = Astro.url;
-const { user } = Astro.locals;
 
 const navLinks = [
   { label: "Dashboard", href: "/dashboard" },
@@ -12,7 +13,6 @@ const navLinks = [
 ];
 
 const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
-const initial = (user?.email?.[0] ?? "?").toUpperCase();
 ---
 
 <header class="mx-auto mb-8 flex w-full max-w-5xl items-center justify-between gap-4">
@@ -57,27 +57,6 @@ const initial = (user?.email?.[0] ?? "?").toUpperCase();
     </nav>
 
     <!-- Account: avatar reveals a sign-out menu on hover / keyboard focus -->
-    <div class="group relative">
-      <button
-        type="button"
-        aria-label="Account menu"
-        class="zen-shadow bg-primary text-primary-foreground focus-visible:ring-ring flex size-9 items-center justify-center text-sm font-semibold outline-none focus-visible:ring-2"
-      >
-        {initial}
-      </button>
-      <div
-        class="zen-shadow bg-popover invisible absolute top-full right-0 z-30 mt-2 min-w-[11rem] p-1 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
-      >
-        {user?.email && <p class="text-muted-foreground truncate px-3 py-1.5 text-xs">{user.email}</p>}
-        <form method="POST" action="/api/auth/signout">
-          <button
-            type="submit"
-            class="text-foreground hover:bg-accent hover:text-accent-foreground w-full px-3 py-1.5 text-left text-sm tracking-[0.08em] uppercase transition-colors"
-          >
-            Sign out
-          </button>
-        </form>
-      </div>
-    </div>
+    <AccountMenu />
   </div>
 </header>

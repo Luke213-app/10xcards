@@ -1,0 +1,29 @@
+---
+// Account avatar that reveals a sign-out menu on hover / keyboard focus.
+// Shared by AppHeader and the dashboard. Server-rendered (no hydration).
+const { user } = Astro.locals;
+const initial = (user?.email?.[0] ?? "?").toUpperCase();
+---
+
+<div class="group relative">
+  <button
+    type="button"
+    aria-label="Account menu"
+    class="zen-shadow bg-primary text-primary-foreground focus-visible:ring-ring flex size-9 items-center justify-center text-sm font-semibold outline-none focus-visible:ring-2"
+  >
+    {initial}
+  </button>
+  <div
+    class="zen-shadow bg-popover invisible absolute top-full right-0 z-30 mt-2 min-w-[11rem] p-1 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
+  >
+    {user?.email && <p class="text-muted-foreground truncate px-3 py-1.5 text-xs">{user.email}</p>}
+    <form method="POST" action="/api/auth/signout">
+      <button
+        type="submit"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground w-full px-3 py-1.5 text-left text-sm tracking-[0.08em] uppercase transition-colors"
+      >
+        Sign out
+      </button>
+    </form>
+  </div>
+</div>
