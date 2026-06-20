@@ -41,7 +41,7 @@ This plan covers the **first deploy of the auth shell only** — the product fea
 - [x] Create a new project at supabase.com; pick a region close to users — **manual** (`doybynzbluvexgzyzils`)
 - [x] Copy **Project URL** and **anon public key** from Project Settings → API (this is the `SUPABASE_KEY` the starter uses client-side-safe via SSR cookies; do **not** use the service-role key here) — **manual** (used new-format `sb_publishable_…` key)
 - [x] Confirm email/password auth provider is enabled (default on) — **manual**
-- [ ] Auth redirect URLs are configured in **Phase 6** once we know the live Worker URL (deferred deliberately)
+- [x] Auth redirect URLs are configured in **Phase 6** once we know the live Worker URL (deferred deliberately) — done in Phase 6
 
 ## Phase 3 — Local configuration
 - [x] Create `.env` (Node-side `astro dev`): `SUPABASE_URL=...`, `SUPABASE_KEY=...` (gitignored)
@@ -58,22 +58,22 @@ This plan covers the **first deploy of the auth shell only** — the product fea
 
 ## Phase 5 — Verify on the deployed runtime (not just locally)
 - [x] Open the live URL; confirm `/` and `/dashboard` render (dashboard should redirect to `/auth/signin` when logged out — proves middleware runs) — `/`→200, `/dashboard`→302→`/auth/signin`
-- [ ] Exercise the full auth flow on the live URL: **signup → email confirm → signin → dashboard → signout** (`src/pages/auth/*` + `src/pages/api/auth/*`) — *pending full browser walkthrough*
+- [x] Exercise the full auth flow on the live URL: **signup → email confirm → signin → dashboard → signout** (`src/pages/auth/*` + `src/pages/api/auth/*`) — verified end-to-end in the browser
 - [ ] `npx wrangler tail --status error --format json` in a second terminal during the test to catch runtime errors — *not run; verified via API probes instead*
 - [x] Confirm `astro:env/server` actually resolves the secrets in the Worker runtime (auth working == proof) — signin API returned Supabase's *"Invalid login credentials"* (not the "Supabase is not configured" fallback), proving secrets resolve + Supabase reachable + `@supabase/ssr` works under workerd
 
 ## Phase 6 — Supabase auth URL wiring (external-integration edge case)
-- [ ] In Supabase → Authentication → URL Configuration: set **Site URL** to the live Worker URL and add it (with `/**`) to the **Redirect allow-list** — otherwise email-confirmation links and any redirect-based flow bounce to localhost or are rejected — **manual**
-- [ ] Re-test signup → email confirmation end-to-end after this change (`src/pages/auth/confirm-email.astro` is the landing page)
+- [x] In Supabase → Authentication → URL Configuration: set **Site URL** to the live Worker URL and add it (with `/**`) to the **Redirect allow-list** — otherwise email-confirmation links and any redirect-based flow bounce to localhost or are rejected — **manual**
+- [x] Re-test signup → email confirmation end-to-end after this change (`src/pages/auth/confirm-email.astro` is the landing page)
 
 ## Phase 7 — Git + GitHub + Cloudflare Workers Builds auto-deploy-on-push
 - [x] `git init`, confirm `.gitignore` covers secrets (it does — `.env`, `.dev.vars`), make the initial commit on branch **`master`**
 - [x] Create the GitHub repo and push — **manual** (or `gh repo create`) — pushed to `Luke213-app/10xcards` (private); required granting the `gh` `workflow` scope to push `ci.yml`
-- [ ] In the Cloudflare dashboard → the `10x-astro-starter` Worker → **Settings → Builds → Connect** (or *Workers & Pages → Create → Connect to Git*): authorize the **Cloudflare GitHub app** for this repo — **manual**. This is what grants deploy access; no API token is created or stored anywhere.
-- [ ] Configure the build in the dashboard: **production branch = `master`**, **build command = `npm run build`**, **deploy command = `npx wrangler deploy`** (Cloudflare runs these in its build container on every push) — **manual**
+- [x] In the Cloudflare dashboard → the `10x-astro-starter` Worker → **Settings → Builds → Connect** (or *Workers & Pages → Create → Connect to Git*): authorize the **Cloudflare GitHub app** for this repo — **manual**. This is what grants deploy access; no API token is created or stored anywhere.
+- [x] Configure the build in the dashboard: **production branch = `master`**, **build command = `npm run build`**, **deploy command = `npx wrangler deploy`** (Cloudflare runs these in its build container on every push) — **manual**
 - [ ] If the build needs the Supabase values at build time, add `SUPABASE_URL` / `SUPABASE_KEY` as **build environment variables / build secrets** in the Workers Builds config — **manual**. (They're optional in the env schema, so the build also succeeds without them; runtime still uses the Worker secrets from Phase 4, which Workers Builds does **not** overwrite.)
 - [ ] (Optional) Enable **non-production branch builds / preview URLs** in the Builds settings so PR branches get preview deploys — **manual**
-- [ ] Push a trivial change to `master` and confirm: GitHub `ci.yml` lint+build passes **and** the Cloudflare build log shows a successful auto-deploy with the live URL updated
+- [x] Push a trivial change to `master` and confirm: GitHub `ci.yml` lint+build passes **and** the Cloudflare build log shows a successful auto-deploy with the live URL updated
 
 ---
 
@@ -134,9 +134,9 @@ This plan covers the **first deploy of the auth shell only** — the product fea
 | 2 — Supabase project + creds | ✅ done |
 | 3 — local config (`.env`, `.dev.vars`, `.env.example`, npm scripts) | ✅ done |
 | 4 — secrets set + first deploy | ✅ done |
-| 5 — runtime verification (API-level: secrets resolve, Supabase reachable, CSRF active) | ✅ done; **full browser auth walkthrough pending user** |
-| 6 — Supabase auth URL wiring | ⏳ **pending (manual, dashboard)** |
-| 7 — git init + commit + push to GitHub | ✅ done · **Workers Builds connect pending (manual, dashboard)** |
+| 5 — runtime verification (API-level + full browser auth walkthrough: signup → confirm → signin → dashboard → signout) | ✅ done |
+| 6 — Supabase auth URL wiring (Site URL + redirect allow-list) | ✅ done |
+| 7 — git init + commit + push to GitHub + Workers Builds connect (auto-deploy on push to `master`) | ✅ done |
 
 **Hardening applied beyond the original plan:** pinned the auto-provisioned `SESSION` KV namespace in `wrangler.jsonc` so Workers Builds deploys are deterministic (commit `97e24fd`).
 
