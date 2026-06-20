@@ -1,53 +1,98 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Panel from "@/components/ui/Panel.astro";
+import Badge from "@/components/ui/Badge.astro";
+import AppFooter from "@/components/AppFooter.astro";
 
-const { user } = Astro.locals;
+// Dashboard hub (R2). Matches reference/ref-dashboard.png: hero + three action
+// blocks, footer-only chrome (no header — the footer carries sign-out).
+// Auth is enforced by middleware (PROTECTED_ROUTES).
 ---
 
 <Layout title="Dashboard">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
-      <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-        Dashboard
+  <div class="bg-cosmic flex min-h-screen flex-col p-4 text-white sm:p-8">
+    <main class="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center py-16">
+      <h1 class="mb-12 text-center text-4xl font-bold sm:text-5xl">
+        What are you up to <span class="bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent"
+          >today?</span
+        >
       </h1>
-      <p class="text-blue-100/80">
-        Welcome, <span class="font-semibold text-white">{user?.email}</span>
-      </p>
-      <p class="mt-2 text-sm text-blue-100/50">This page is only for authenticated users.</p>
-      <div class="mt-6 flex items-center justify-center gap-3">
-        <a
-          href="/review"
-          class="inline-block rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
-        >
-          Review
+
+      <div class="space-y-4">
+        <a href="/review" class="group block">
+          <Panel class="flex items-center gap-4 p-5 transition-colors group-hover:bg-white/10">
+            <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"
+                ></path>
+                <path d="M22 10v6"></path>
+                <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+              </svg>
+            </span>
+            <span class="text-lg font-medium text-white">I want to Learn</span>
+          </Panel>
         </a>
-        <a
-          href="/generate"
-          class="inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
-        >
-          Generate flashcards
+
+        <a href="/cards" class="group block">
+          <Panel class="flex items-center gap-4 p-5 transition-colors group-hover:bg-white/10">
+            <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                <path d="M3 9h18"></path>
+                <path d="M9 21V9"></path>
+              </svg>
+            </span>
+            <span class="text-lg font-medium text-white">Browse my cards</span>
+          </Panel>
         </a>
-        <a
-          href="/cards/new"
-          class="inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
-        >
-          Add card manually
-        </a>
-        <a
-          href="/cards"
-          class="inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
-        >
-          My cards
-        </a>
+
+        <Panel class="flex items-center gap-4 p-5 opacity-60">
+          <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.84Z"
+              ></path>
+              <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path>
+              <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path>
+            </svg>
+          </span>
+          <span class="text-lg font-medium text-white">Create a deck</span>
+          <Badge class="ml-auto text-purple-200">Coming soon</Badge>
+        </Panel>
       </div>
-      <form method="POST" action="/api/auth/signout" class="mt-6">
-        <button
-          type="submit"
-          class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
-        >
-          Sign out
-        </button>
-      </form>
-    </div>
+    </main>
+
+    <AppFooter />
   </div>
 </Layout>
