@@ -1,16 +1,28 @@
 ---
 import { cn } from "@/lib/utils";
 
+// zen Tag: uppercase mono chip with a 2px ink border. `tint` (default)
+// is the tinted-purple pill; `accent` fills purple; `solid` inverts to
+// ink; `plain` is surface.
 interface Props {
+  variant?: "tint" | "accent" | "solid" | "plain";
   class?: string;
 }
 
-const { class: className } = Astro.props;
+const { variant = "tint", class: className } = Astro.props;
+
+const variants = {
+  tint: "bg-accent text-accent-foreground",
+  accent: "bg-primary text-primary-foreground",
+  solid: "bg-foreground text-background",
+  plain: "bg-card text-foreground",
+};
 ---
 
 <span
   class:list={cn(
-    "inline-flex items-center rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-xs",
+    "border-foreground inline-block border-2 px-3 py-[5px] text-[11px] font-medium tracking-[0.1em] uppercase",
+    variants[variant],
     className,
   )}
 >

@@ -1,9 +1,10 @@
 ---
 import { cn } from "@/lib/utils";
 
-// A non-hydrated call-to-action link usable from .astro pages (the cosmic
-// primary/secondary button styling, extracted from the copy-pasted utility
-// strings). For interactive buttons inside React islands, use ui/button.tsx.
+// A non-hydrated call-to-action link usable from .astro pages, styled in
+// the zen look (filled accent primary / ink-bordered secondary, both with
+// the hard-shadow press). For interactive buttons inside React islands, use
+// ui/button.tsx.
 interface Props {
   href: string;
   variant?: "primary" | "secondary";
@@ -13,10 +14,10 @@ interface Props {
 const { href, variant = "primary", class: className } = Astro.props;
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors";
+  "zen-shadow zen-press inline-flex items-center justify-center gap-2 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors";
 const variants = {
-  primary: "bg-purple-600 hover:bg-purple-500",
-  secondary: "border border-white/20 bg-white/10 hover:bg-white/20",
+  primary: "bg-primary text-primary-foreground hover:bg-[var(--accent-press)]",
+  secondary: "bg-card text-foreground",
 };
 ---
 
