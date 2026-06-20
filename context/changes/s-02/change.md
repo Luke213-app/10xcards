@@ -1,9 +1,9 @@
 ---
 change_id: s-02
 title: Manually create a flashcard (S-02)
-status: implementing
+status: implemented
 created: 2026-06-19
-updated: 2026-06-19
+updated: 2026-06-20
 archived_at: null
 ---
 
