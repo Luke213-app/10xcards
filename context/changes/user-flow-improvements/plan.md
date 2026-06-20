@@ -389,8 +389,8 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Automated
 
-- [x] 4.1 Linting passes: `npm run lint`
-- [x] 4.2 Production build succeeds: `npm run build`
+- [x] 4.1 Linting passes: `npm run lint` — 064c96c
+- [x] 4.2 Production build succeeds: `npm run build` — 064c96c
 
 #### Manual
 
@@ -402,8 +402,8 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Automated
 
-- [ ] 5.1 Linting passes: `npm run lint`
-- [ ] 5.2 Production build succeeds: `npm run build`
+- [x] 5.1 Linting passes: `npm run lint`
+- [x] 5.2 Production build succeeds: `npm run build`
 
 #### Manual
 
