@@ -319,27 +319,27 @@ Scheduling math is trivial (pure arithmetic), so no edge-timeout concern (unlike
 
 #### Automated
 
-- [x] 2.1 Build passes: `npm run build`
-- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.1 Build passes: `npm run build` — fa9e531
+- [x] 2.2 Linting passes: `npm run lint` — fa9e531
 
 #### Manual
 
-- [x] 2.3 `POST /api/flashcards/<id>/review` with `{ "rating": 3 }` returns 200 and an advanced `due`
-- [x] 2.4 Auth/validation edges: 401 unauth, 404 bad id, 400 for rating 0/5
-- [x] 2.5 Graded card's `due`/`reps`/`state` persist on re-query
+- [x] 2.3 `POST /api/flashcards/<id>/review` with `{ "rating": 3 }` returns 200 and an advanced `due` — fa9e531
+- [x] 2.4 Auth/validation edges: 401 unauth, 404 bad id, 400 for rating 0/5 — fa9e531
+- [x] 2.5 Graded card's `due`/`reps`/`state` persist on re-query — fa9e531
 
 ### Phase 3: Review Page, Island & Navigation
 
 #### Automated
 
-- [ ] 3.1 Build passes: `npm run build`
-- [ ] 3.2 Linting passes: `npm run lint`
+- [x] 3.1 Build passes: `npm run build`
+- [x] 3.2 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 3.3 Signed-out `/review` redirects to `/auth/signin`
-- [ ] 3.4 Flip-then-grade loop works: front → show answer → grade w/ previews → advance
-- [ ] 3.5 Completion state shows "N reviewed" + link to `/cards`
-- [ ] 3.6 Empty queue shows "You're all caught up"
-- [ ] 3.7 Graded card's new `due` is respected on fresh `/review` load
-- [ ] 3.8 "Review" nav link works from `/cards`, `/generate`, dashboard
+- [x] 3.3 Signed-out `/review` redirects to `/auth/signin`
+- [x] 3.4 Flip-then-grade loop works: front → show answer → grade w/ previews → advance
+- [x] 3.5 Completion state shows "N reviewed" + link to `/cards`
+- [x] 3.6 Empty queue shows "You're all caught up"
+- [x] 3.7 Graded card's new `due` is respected on fresh `/review` load
+- [x] 3.8 "Review" nav link works from `/cards`, `/generate`, dashboard
