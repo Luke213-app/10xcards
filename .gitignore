@@ -31,8 +31,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# local-only design system skill
-.claude/skills/zen/
+# local-only agent skills — never push to GitHub
+.claude/skills/
 
 # playwright e2e — captured session cookies (impersonation risk) + reports
 e2e/.auth/
