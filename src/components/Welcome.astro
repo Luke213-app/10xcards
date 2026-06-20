@@ -25,35 +25,12 @@ const features = [
 ];
 ---
 
-<div class="bg-cosmic relative min-h-screen w-full overflow-hidden">
-  <!-- Cosmic orbs -->
-  <div
-    class="pointer-events-none absolute top-1/4 -left-24 h-[350px] w-[350px] rounded-full bg-purple-500/20 blur-[120px]"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute top-2/3 -right-16 h-[250px] w-[250px] rounded-full bg-blue-500/15 blur-[100px]"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute top-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-indigo-400/10 blur-[140px]"
-  >
-  </div>
-
-  <!-- Star field -->
-  <div
-    class="pointer-events-none absolute inset-0"
-    style="background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px), radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px); background-size: 200px 200px, 150px 150px, 100px 100px; background-position: 0 0, 40px 60px, 80px 30px;"
-  >
-  </div>
-
+<div class="bg-background relative min-h-screen w-full overflow-hidden">
   <div class="relative z-10 p-4 sm:p-8">
     <!-- Public header (not AppHeader): brand + Sign in / Sign up -->
     <header class="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
-      <a href="/" class="flex items-center gap-2 text-white transition-opacity hover:opacity-80">
-        <span
-          class="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 text-white"
-        >
+      <a href="/" class="text-foreground flex items-center gap-2 transition-opacity hover:opacity-80">
+        <span class="zen-shadow bg-primary text-primary-foreground flex size-8 items-center justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -69,26 +46,23 @@ const features = [
             <path d="M9 8h6"></path>
           </svg>
         </span>
-        <span class="text-base font-semibold">Recall</span>
+        <span class="font-sans text-base font-extrabold tracking-[-0.02em]">Recall</span>
       </a>
-      <div class="flex items-center gap-3 text-sm">
-        <a href="/auth/signin" class="text-blue-100/70 transition-colors hover:text-white">Sign in</a>
+      <div class="flex items-center gap-3 text-[11px] tracking-[0.1em] uppercase">
+        <a href="/auth/signin" class="text-muted-foreground hover:text-foreground transition-colors">Sign in</a>
         <Cta href="/auth/signup" variant="secondary">Sign up</Cta>
       </div>
     </header>
 
     <!-- Hero section -->
     <div class="mx-auto flex max-w-4xl flex-col items-center justify-center px-4 py-24 text-center sm:py-32">
-      <Badge class="mb-8 gap-2 text-blue-100/80">
-        <span class="size-1.5 rounded-full bg-purple-400"></span>
-        Free &amp; open source
-      </Badge>
-      <h1 class="mb-6 text-5xl leading-tight font-bold text-white sm:text-6xl lg:text-7xl">
-        Remember <span class="bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent"
-          >everything</span
-        > you learn.
+      <Badge variant="tint" class="mb-8">Free &amp; open source</Badge>
+      <h1
+        class="text-foreground mb-6 font-sans text-5xl leading-tight font-extrabold tracking-[-0.03em] sm:text-6xl lg:text-7xl"
+      >
+        Remember <span class="text-primary">everything</span> you learn.
       </h1>
-      <p class="max-w-2xl text-lg text-blue-100/70 sm:text-xl">
+      <p class="text-muted-foreground max-w-2xl text-lg sm:text-xl">
         Flashcard program that helps you memorize vast amounts of information.
       </p>
     </div>
@@ -97,8 +71,8 @@ const features = [
     <div class="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-4 pb-24 sm:grid-cols-3">
       {
         features.map((feature) => (
-          <Panel class="p-6 backdrop-blur-xl">
-            <span class="mb-4 flex size-10 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+          <Panel class="p-6">
+            <span class="border-foreground bg-accent text-accent-foreground mb-4 flex size-10 items-center justify-center border-2">
               {feature.icon === "recall" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -150,8 +124,8 @@ const features = [
                 </svg>
               )}
             </span>
-            <h3 class="mb-2 text-lg font-semibold text-white">{feature.title}</h3>
-            <p class="text-sm leading-relaxed text-blue-100/60">{feature.body}</p>
+            <h3 class="text-foreground mb-2 font-sans text-lg font-extrabold">{feature.title}</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">{feature.body}</p>
           </Panel>
         ))
       }
