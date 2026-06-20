@@ -1,0 +1,25 @@
+---
+import { cn } from "@/lib/utils";
+
+// A non-hydrated call-to-action link usable from .astro pages (the cosmic
+// primary/secondary button styling, extracted from the copy-pasted utility
+// strings). For interactive buttons inside React islands, use ui/button.tsx.
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary";
+  class?: string;
+}
+
+const { href, variant = "primary", class: className } = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors";
+const variants = {
+  primary: "bg-purple-600 hover:bg-purple-500",
+  secondary: "border border-white/20 bg-white/10 hover:bg-white/20",
+};
+---
+
+<a href={href} class:list={cn(base, variants[variant], className)}>
+  <slot />
+</a>
