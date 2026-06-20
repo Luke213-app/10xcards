@@ -35,6 +35,15 @@ export const updateFlashcardSchema = z
     message: "At least one of front or back must be provided",
   });
 
+/** Body of `POST /api/flashcards/[id]/review` — exactly a grade of 1–4.
+ *  Maps to ts-fsrs `Rating`: Again(1)/Hard(2)/Good(3)/Easy(4). `Manual=0` is
+ *  internal to ts-fsrs and is never accepted; 0/5+/non-int all fail as a 400.
+ *  Separate from `updateFlashcardSchema`: grading only mutates scheduling state,
+ *  never front/back. */
+export const gradeSchema = z.object({
+  rating: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+});
+
 const llmCandidateSchema = z.object({
   front: trimmedText(FIELD_MAX),
   back: trimmedText(FIELD_MAX),
