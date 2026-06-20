@@ -49,11 +49,16 @@ jobs:
       # the committed defaults. These are local, non-secret, deterministic keys.
       - name: Export local Supabase credentials
         run: |
+          # `supabase status -o env` emits quoted values (KEY="value"); $GITHUB_ENV
+          # does NOT strip quotes (unlike a shell `eval`), so strip the wrapping
+          # quotes here or the value reaches the app as `"http://…"` and fails URL
+          # parsing. Filter to just the three vars our e2e helpers consume.
           npx supabase status -o env \
             --override-name api.url=SUPABASE_URL \
             --override-name auth.anon_key=SUPABASE_ANON_KEY \
             --override-name auth.service_role_key=SUPABASE_SERVICE_ROLE_KEY \
-            >> "$GITHUB_ENV"
+            | grep -E '^SUPABASE_(URL|ANON_KEY|SERVICE_ROLE_KEY)=' \
+            | sed -E 's/^([^=]+)="(.*)"$/\1=\2/' >> "$GITHUB_ENV"
 
       - name: Install Playwright browsers
         run: npm run test:e2e:install
