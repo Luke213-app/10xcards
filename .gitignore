@@ -22,6 +22,7 @@ pnpm-debug.log*
 
 # cloudflare
 .dev.vars
+.dev.vars.e2e-backup
 .wrangler/
 
 # macOS-specific files
@@ -32,3 +33,9 @@ pnpm-debug.log*
 
 # local-only design system skill
 .claude/skills/zen/
+
+# playwright e2e — captured session cookies (impersonation risk) + reports
+e2e/.auth/
+test-results/
+playwright-report/
+.playwright/
