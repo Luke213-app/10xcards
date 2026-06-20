@@ -379,30 +379,30 @@ Restyle the spaced-repetition review screen with zen-faithful grade buttons, the
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Production build succeeds: `npm run build`
-- [x] 1.3 No remaining `bg-cosmic`/`.dark` references in `src/styles/global.css`
+- [x] 1.1 Linting passes: `npm run lint` — 44b94cd
+- [x] 1.2 Production build succeeds: `npm run build` — 44b94cd
+- [x] 1.3 No remaining `bg-cosmic`/`.dark` references in `src/styles/global.css` — 44b94cd
 
 #### Manual
 
-- [x] 1.4 DM Sans + IBM Plex Mono load on rendered pages
-- [x] 1.5 A chrome page (e.g. `/cards`) shows zen header/footer (paper, ink borders, square, hard shadows, accent)
-- [x] 1.6 Restyled + new primitives render correctly in real usage
-- [x] 1.7 Hover "press" interaction works on buttons/CTAs
+- [x] 1.4 DM Sans + IBM Plex Mono load on rendered pages — 44b94cd
+- [x] 1.5 A chrome page (e.g. `/cards`) shows zen header/footer (paper, ink borders, square, hard shadows, accent) — 44b94cd
+- [x] 1.6 Restyled + new primitives render correctly in real usage — 44b94cd
+- [x] 1.7 Hover "press" interaction works on buttons/CTAs — 44b94cd
 
 ### Phase 2: Landing + Auth Screens
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Production build succeeds: `npm run build`
-- [ ] 2.3 No dark/glass utilities left in landing + auth files
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Production build succeeds: `npm run build`
+- [x] 2.3 No dark/glass utilities left in landing + auth files
 
 #### Manual
 
-- [ ] 2.4 `/`, `/auth/signin`, `/auth/signup`, `/auth/confirm-email` render fully zen
-- [ ] 2.5 Sign-in/sign-up submit + validation/server errors work
-- [ ] 2.6 Password visibility toggle works
+- [x] 2.4 `/`, `/auth/signin`, `/auth/signup`, `/auth/confirm-email` render fully zen
+- [x] 2.5 Sign-in/sign-up submit + validation/server errors work
+- [x] 2.6 Password visibility toggle works
 
 ### Phase 3: Dashboard
 
