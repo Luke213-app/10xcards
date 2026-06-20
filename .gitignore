@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# MCP config (contains API keys)
+.mcp.json
+
 # cloudflare
 .dev.vars
 .wrangler/
