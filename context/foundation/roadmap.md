@@ -3,7 +3,7 @@ project: "10xCards"
 version: 1
 status: draft
 created: 2026-06-19
-updated: 2026-06-19
+updated: 2026-06-20
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -37,6 +37,7 @@ The product wedge — the one trait that, if removed, makes the product indistin
 | S-03  | browse-saved-cards            | browse their saved flashcard collection                           | F-01          | FR-007                         | proposed |
 | S-04  | edit-delete-saved-cards       | edit and delete a saved flashcard                                 | S-03          | FR-008, FR-009                 | proposed |
 | S-05  | srs-review-session            | start a review session and grade due cards to reschedule them     | F-01, S-01    | FR-010, FR-011                 | blocked  |
+| S-06  | user-flow-improvements        | move through a coherent landing → dashboard → cards flow with consistent chrome & auth-aware routing | S-01, S-02, S-03 | NFR (usability), Access Control | ready    |
 
 ## Streams
 
@@ -47,6 +48,7 @@ Navigation aid — groups items that share a Prerequisites chain. Canonical orde
 | A      | Rdzeń AI (wedge)       | `F-01` → `S-01`            | The north-star path; everything else only matters once this proves out.    |
 | B      | Zarządzanie kolekcją   | `S-02` / `S-03` → `S-04`   | Branches from `F-01` (joins Stream A at `F-01`); all three are management CRUD on the same store. |
 | C      | Powtórki (SR)          | `S-05`                     | Joins Stream A at `S-01`; blocked on OQ-1 (which SR library) until that decision lands. |
+| D      | Spójność UX (refinement) | `S-06`                   | Cross-cutting; lands after the feature slices it restyles (S-01/S-02/S-03). Not a vertical wedge — IA/navigation/visual polish over shipped pages. |
 
 ## Baseline
 
@@ -141,6 +143,20 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Risk:** The payoff slice but blocked on the single most consequential open decision (OQ-1); kept out of the critical path under `main_goal: speed` until the library is chosen, because guessing the algorithm risks reworking both the schema and the grading UX.
 - **Status:** blocked
 
+### S-06: Coherent navigation, landing & dashboard refinement
+
+- **Outcome:** user moves through a consistent landing → dashboard → cards experience: a redesigned marketing landing (auto-routing a logged-in visitor to the dashboard), a dashboard of clear action blocks (Learn → `/review`, Browse my cards → `/cards`, Create a deck → inert placeholder), and a `/cards` page that drops its ad-hoc header for a shared header + footer — with logout from anywhere returning to `/` and no orphaned/dead-end links.
+- **Change ID:** user-flow-improvements
+- **PRD refs:** NFR (product remains usable on mainstream desktop browsers); Access Control (unauthenticated visitor cannot reach app routes; auth-aware landing redirect). Visual target captured in `context/changes/user-flow-improvements/reference/`.
+- **Prerequisites:** S-01, S-02, S-03 (it restyles the entry points to generation, manual create, and the card collection, plus the shared chrome around them)
+- **Parallel with:** S-04, S-05 (independent — touches presentation/IA, not their write paths)
+- **Blockers:** —
+- **Unknowns:**
+  - OQ-A: ✅ Resolved (2026-06-20) — "Sign up logs out" was a requirements error. Landing hard-redirects logged-in → `/dashboard`; "Sign up" is a plain link to `/auth/signup`; auth pages also redirect logged-in visitors to `/dashboard`.
+  - OQ-B: Post-redesign home for "Generate" / "Add manually" entry points. Owner: user. Block: no (default: surface from the shared header + keep `/cards` empty-state CTAs).
+- **Risk:** Low product risk (no new capability, no schema/data change), but it is the connective tissue every user sees — the load-bearing move is extracting **one** shared authenticated header/footer (today `Topbar.astro` is landing-only and each page hand-rolls nav) and rerouting through it without orphaning `/generate` and `/cards/new`. The "Create a deck" block stays an inert placeholder, honoring the parked *deck grouping* Non-Goal rather than smuggling deck logic in.
+- **Status:** ready
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID                     | Suggested issue title                                  | Ready for `/10x-plan` | Notes |
@@ -151,6 +167,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | S-03       | browse-saved-cards            | Browse saved flashcards                                | no                    | Waits on F-01 |
 | S-04       | edit-delete-saved-cards       | Edit & delete saved flashcards                         | no                    | Waits on S-03 |
 | S-05       | srs-review-session            | Spaced-repetition review session                       | no                    | Blocked on OQ-1 (SR library choice) — not plannable until resolved |
+| S-06       | user-flow-improvements        | Coherent navigation, landing & dashboard refinement    | yes                   | OQ-A resolved; OQ-B has a sensible default. Run `/10x-research user-flow-improvements` → `/10x-plan` |
 
 This table is the clean handoff to Jira/Linear or any MCP-backed backlog. One row per `F-NN` / `S-NN`; it does not duplicate the detailed roadmap body.
 
