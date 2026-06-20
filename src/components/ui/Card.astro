@@ -1,0 +1,15 @@
+---
+import { cn } from "@/lib/utils";
+
+// zen surface card: paper surface, 2px ink border, hard offset shadow,
+// square corners. Padding is left to the caller (use p-* / --pad-card).
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={cn("zen-shadow bg-card text-card-foreground", className)}>
+  <slot />
+</div>

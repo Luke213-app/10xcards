@@ -15,9 +15,10 @@ const { variant = "info" } = Astro.props;
 <style>
   .banner {
     padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
     text-align: center;
-    border-bottom: 1px solid;
+    border-bottom: 2px solid var(--foreground);
   }
   .banner :global(a) {
     color: inherit;
@@ -25,18 +26,15 @@ const { variant = "info" } = Astro.props;
     font-weight: 600;
   }
   .banner--info {
-    background: #dbeafe;
-    color: #1e3a8a;
-    border-color: #3b82f6;
+    background: var(--surface-code);
+    color: var(--foreground);
   }
   .banner--warning {
-    background: #fef3c7;
-    color: #78350f;
-    border-color: #f59e0b;
+    background: var(--accent-light);
+    color: var(--accent-press);
   }
   .banner--error {
-    background: #fee2e2;
-    color: #7f1d1d;
-    border-color: #dc2626;
+    background: var(--destructive);
+    color: #ffffff;
   }
 </style>
