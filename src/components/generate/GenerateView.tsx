@@ -173,7 +173,7 @@ export default function GenerateView({ onSaved }: { onSaved?: () => void } = {})
           </div>
 
           {candidates.length > 0 ? (
-            <ul className="space-y-4" data-testid="generate-review">
+            <ul className="space-y-4" data-testid="generate-results">
               {candidates.map((c) => (
                 <CandidateCard
                   key={c.id}
