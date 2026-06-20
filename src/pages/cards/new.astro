@@ -1,29 +1,12 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import ManualCardForm from "@/components/manual/ManualCardForm";
-
-// Auth is enforced by middleware (PROTECTED_ROUTES). The island owns all state.
-const { user } = Astro.locals;
+// The dedicated manual-create page is consolidated into the /generate toggle
+// surface (R4). Preserve any existing bookmarks/links by redirecting straight
+// into the Manual mode of that surface.
+//
+// We set the redirect via Astro.response rather than `return Astro.redirect()`:
+// a bare top-level `return` in a body-less frontmatter crashes
+// @typescript-eslint's no-misused-promises rule (it can't resolve the return's
+// enclosing function). This form is equivalent and lints cleanly.
+Astro.response.status = 302;
+Astro.response.headers.set("Location", "/generate?mode=manual");
 ---
-
-<Layout title="Add a flashcard">
-  <main class="bg-cosmic min-h-screen p-4 text-white">
-    <div class="mx-auto w-full max-w-3xl py-10">
-      <header class="mb-8 flex items-center justify-between">
-        <div>
-          <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-            Add a flashcard
-          </h1>
-          <p class="mt-1 text-sm text-blue-100/60">
-            Write a card by hand and save it to your collection{user?.email ? `, ${user.email}` : ""}.
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <a href="/cards" class="text-sm text-purple-300 hover:underline">My cards</a>
-          <a href="/dashboard" class="text-sm text-purple-300 hover:underline">Dashboard</a>
-        </div>
-      </header>
-      <ManualCardForm client:load heading="New flashcard" intro="Type a question and its answer, then save." />
-    </div>
-  </main>
-</Layout>
