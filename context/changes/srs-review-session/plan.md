@@ -305,28 +305,28 @@ Scheduling math is trivial (pure arithmetic), so no edge-timeout concern (unlike
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset`
-- [x] 1.2 Type checking / build passes: `npm run build`
-- [x] 1.3 Linting passes: `npm run lint`
+- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` — 7d24fd1
+- [x] 1.2 Type checking / build passes: `npm run build` — 7d24fd1
+- [x] 1.3 Linting passes: `npm run lint` — 7d24fd1
 
 #### Manual
 
-- [x] 1.4 Edge smoke test: server-side `import` of ts-fsrs runs on `npm run dev` without runtime error
-- [x] 1.5 Migration pushed to remote: `npx supabase db push`
-- [x] 1.6 Remote `flashcards` table shows the 10 new columns
+- [x] 1.4 Edge smoke test: server-side `import` of ts-fsrs runs on `npm run dev` without runtime error — 7d24fd1
+- [x] 1.5 Migration pushed to remote: `npx supabase db push` — 7d24fd1
+- [x] 1.6 Remote `flashcards` table shows the 10 new columns — 7d24fd1
 
 ### Phase 2: Service + API Layer
 
 #### Automated
 
-- [ ] 2.1 Build passes: `npm run build`
-- [ ] 2.2 Linting passes: `npm run lint`
+- [x] 2.1 Build passes: `npm run build`
+- [x] 2.2 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 2.3 `POST /api/flashcards/<id>/review` with `{ "rating": 3 }` returns 200 and an advanced `due`
-- [ ] 2.4 Auth/validation edges: 401 unauth, 404 bad id, 400 for rating 0/5
-- [ ] 2.5 Graded card's `due`/`reps`/`state` persist on re-query
+- [x] 2.3 `POST /api/flashcards/<id>/review` with `{ "rating": 3 }` returns 200 and an advanced `due`
+- [x] 2.4 Auth/validation edges: 401 unauth, 404 bad id, 400 for rating 0/5
+- [x] 2.5 Graded card's `due`/`reps`/`state` persist on re-query
 
 ### Phase 3: Review Page, Island & Navigation
 
