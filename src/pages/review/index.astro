@@ -3,6 +3,8 @@ import Layout from "@/layouts/Layout.astro";
 import { createClient } from "@/lib/supabase";
 import { listDueFlashcards } from "@/lib/services/flashcards";
 import ReviewSession from "@/components/review/ReviewSession";
+import Card from "@/components/ui/Card.astro";
+import Cta from "@/components/ui/Cta.astro";
 import AppHeader from "@/components/AppHeader.astro";
 import AppFooter from "@/components/AppFooter.astro";
 
@@ -17,14 +19,12 @@ const dueCards = supabase ? await listDueFlashcards(supabase) : [];
 ---
 
 <Layout title="Review">
-  <div class="bg-cosmic flex min-h-screen flex-col p-4 text-white sm:p-8">
+  <div class="flex min-h-screen flex-col p-4 sm:p-8">
     <AppHeader />
     <main class="mx-auto w-full max-w-3xl flex-1 py-6">
       <div class="mb-8">
-        <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-          Review
-        </h1>
-        <p class="mt-1 text-sm text-blue-100/60">
+        <h1 class="text-foreground font-sans text-3xl font-extrabold tracking-[-0.02em]">Review</h1>
+        <p class="text-muted-foreground mt-1 text-sm">
           {
             configured && dueCards.length > 0
               ? `${dueCards.length} card${dueCards.length === 1 ? "" : "s"} due.`
@@ -35,30 +35,24 @@ const dueCards = supabase ? await listDueFlashcards(supabase) : [];
 
       {
         !configured ? (
-          <section class="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p class="text-sm text-red-300">Review is unavailable right now. Please try again later.</p>
-          </section>
+          <Card class="p-6">
+            <p class="text-destructive text-sm">Review is unavailable right now. Please try again later.</p>
+          </Card>
         ) : dueCards.length === 0 ? (
-          <section class="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-            <h2 class="text-lg font-semibold text-white">You&apos;re all caught up</h2>
-            <p class="mx-auto mt-1 max-w-md text-sm text-blue-100/60">
+          <Card class="p-8 text-center">
+            <h2 class="text-foreground font-sans text-lg font-extrabold">You&apos;re all caught up</h2>
+            <p class="text-muted-foreground mx-auto mt-1 max-w-md text-sm">
               No cards are due right now. Generate or add more cards, or come back later.
             </p>
             <div class="mt-6 flex items-center justify-center gap-3">
-              <a
-                href="/cards"
-                class="inline-block rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
-              >
+              <Cta href="/cards" variant="primary">
                 My cards
-              </a>
-              <a
-                href="/generate"
-                class="inline-block rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
-              >
+              </Cta>
+              <Cta href="/generate" variant="secondary">
                 Create flashcards
-              </a>
+              </Cta>
             </div>
-          </section>
+          </Card>
         ) : (
           <ReviewSession cards={dueCards} client:load />
         )
