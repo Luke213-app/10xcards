@@ -489,20 +489,20 @@ reset` when needed. Seeding uses service_role + explicit `user_id` (RLS bypass).
 
 #### Automated
 
-- [x] 4.1 Isolation spec passes: `npm run test:e2e -- isolation/`
-- [x] 4.2 Lint passes: `npm run lint`
+- [x] 4.1 Isolation spec passes: `npm run test:e2e -- isolation/` — 904eea7
+- [x] 4.2 Lint passes: `npm run lint` — 904eea7
 
 #### Manual
 
-- [x] 4.3 404 (not 403/200) and B's row unchanged (verified in Studio)
+- [x] 4.3 404 (not 403/200) and B's row unchanged (verified in Studio) — 904eea7
 
 ### Phase 5: CI Wiring + Documentation
 
 #### Automated
 
 - [ ] 5.1 CI e2e job runs green on push/PR (full suite passes in CI)
-- [ ] 5.2 Local full run passes: `npm run test:e2e`
-- [ ] 5.3 Lint passes: `npm run lint`
+- [x] 5.2 Local full run passes: `npm run test:e2e`
+- [x] 5.3 Lint passes: `npm run lint`
 
 #### Manual
 

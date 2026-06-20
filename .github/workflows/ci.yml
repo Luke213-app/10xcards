@@ -22,3 +22,48 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
+  e2e:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx astro sync
+
+      # Provision a local Supabase stack (Docker ships on ubuntu-latest). `start`
+      # applies the migrations in supabase/migrations/; `migration up` is an
+      # explicit, idempotent re-apply so a missing migration fails loudly here
+      # rather than at runtime.
+      - name: Start local Supabase
+        run: npx supabase start
+      - name: Apply migrations
+        run: npx supabase migration up --local
+
+      # Export the local stack's URL + keys into the job env so the e2e helpers
+      # (e2e/support/local-supabase.ts) and the dev server pick them up instead of
+      # the committed defaults. These are local, non-secret, deterministic keys.
+      - name: Export local Supabase credentials
+        run: |
+          npx supabase status -o env \
+            --override-name api.url=SUPABASE_URL \
+            --override-name auth.anon_key=SUPABASE_ANON_KEY \
+            --override-name auth.service_role_key=SUPABASE_SERVICE_ROLE_KEY \
+            >> "$GITHUB_ENV"
+
+      - name: Install Playwright browsers
+        run: npm run test:e2e:install
+      - name: Run e2e suite
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
