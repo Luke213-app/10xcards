@@ -2,6 +2,7 @@
 import Badge from "@/components/ui/Badge.astro";
 import Panel from "@/components/ui/Panel.astro";
 import Cta from "@/components/ui/Cta.astro";
+import AppFooter from "@/components/AppFooter.astro";
 
 // Public landing (R1). Matches reference/ref-landing.png. A logged-in visitor
 // never reaches this — middleware redirects them to /dashboard (Phase 2).
@@ -155,5 +156,7 @@ const features = [
         ))
       }
     </div>
+
+    <AppFooter />
   </div>
 </div>

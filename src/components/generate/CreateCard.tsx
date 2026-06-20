@@ -11,9 +11,11 @@ type Mode = "ai" | "manual";
 
 interface Props {
   initialMode?: Mode;
+  /** Forwarded to the underlying flows; fires after each successful save. */
+  onSaved?: () => void;
 }
 
-export default function CreateCard({ initialMode = "ai" }: Props) {
+export default function CreateCard({ initialMode = "ai", onSaved }: Props) {
   const [mode, setMode] = useState<Mode>(initialMode);
 
   const tabs: { value: Mode; label: string; icon: typeof Sparkles }[] = [
@@ -53,9 +55,9 @@ export default function CreateCard({ initialMode = "ai" }: Props) {
       </div>
 
       {mode === "ai" ? (
-        <GenerateView />
+        <GenerateView onSaved={onSaved} />
       ) : (
-        <ManualCardForm heading="New flashcard" intro="Type a question and its answer, then save." />
+        <ManualCardForm heading="New flashcard" intro="Type a question and its answer, then save." onSaved={onSaved} />
       )}
     </div>
   );

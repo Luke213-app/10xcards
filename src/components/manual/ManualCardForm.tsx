@@ -19,6 +19,8 @@ interface Props {
   actions?: ReactNode;
   /** Optional content rendered below the form (e.g. a session hint). */
   footer?: ReactNode;
+  /** Called after a card is successfully saved (e.g. so a modal can refresh). */
+  onSaved?: () => void;
 }
 
 async function saveManualCard(front: string, back: string): Promise<void> {
@@ -32,7 +34,7 @@ async function saveManualCard(front: string, back: string): Promise<void> {
   }
 }
 
-export default function ManualCardForm({ heading, intro, actions, footer }: Props) {
+export default function ManualCardForm({ heading, intro, actions, footer, onSaved }: Props) {
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
   const [saving, setSaving] = useState(false);
@@ -50,6 +52,7 @@ export default function ManualCardForm({ heading, intro, actions, footer }: Prop
       setFront("");
       setBack("");
       setSavedCount((n) => n + 1);
+      onSaved?.();
       // Refocus Front so several cards can be added in a row without clicking.
       frontRef.current?.focus();
     } catch {
