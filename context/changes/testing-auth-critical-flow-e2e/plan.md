@@ -449,28 +449,28 @@ reset` when needed. Seeding uses service_role + explicit `user_id` (RLS bypass).
 
 #### Automated
 
-- [x] 1.1 Browsers install: `npm run test:e2e:install`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Smoke spec passes: `npm run test:e2e -- smoke.spec.ts`
-- [x] 1.4 No `e2e/.auth/` or report dirs tracked in `git status`
+- [x] 1.1 Browsers install: `npm run test:e2e:install` — 0a86468
+- [x] 1.2 Lint passes: `npm run lint` — 0a86468
+- [x] 1.3 Smoke spec passes: `npm run test:e2e -- smoke.spec.ts` — 0a86468
+- [x] 1.4 No `e2e/.auth/` or report dirs tracked in `git status` — 0a86468
 
 #### Manual
 
-- [x] 1.5 Local Supabase running + migrations applied
-- [x] 1.6 `e2e/.auth/user.json` created with session cookies
-- [x] 1.7 Dev server comes up on pinned port 4321 under workerd
+- [x] 1.5 Local Supabase running + migrations applied — 0a86468
+- [x] 1.6 `e2e/.auth/user.json` created with session cookies — 0a86468
+- [x] 1.7 Dev server comes up on pinned port 4321 under workerd — 0a86468
 
 ### Phase 2: R#5 — Auth Gate
 
 #### Automated
 
-- [ ] 2.1 Auth specs pass: `npm run test:e2e -- auth/`
-- [ ] 2.2 Lint passes: `npm run lint`
+- [x] 2.1 Auth specs pass: `npm run test:e2e -- auth/`
+- [x] 2.2 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 2.3 Redirect target + authed render correct (headed)
-- [ ] 2.4 Signup→confirm→login path works against local DB
+- [x] 2.3 Redirect target + authed render correct (headed)
+- [x] 2.4 Signup→confirm→login path works against local DB
 
 ### Phase 3: R#4 — Generation Progress / Terminal State
 
