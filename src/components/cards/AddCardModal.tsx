@@ -39,7 +39,7 @@ export default function AddCardModal() {
           setOpen(true);
         }}
         aria-label="Add card"
-        className="fixed right-6 bottom-6 z-20 inline-flex items-center gap-2 rounded-full bg-purple-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-purple-900/40 transition-colors hover:bg-purple-500"
+        className="zen-shadow zen-press bg-primary text-primary-foreground fixed right-6 bottom-6 z-20 inline-flex items-center gap-2 px-5 py-3 text-[11px] font-medium tracking-[0.08em] uppercase hover:bg-[var(--accent-press)]"
       >
         <Plus className="size-[18px]" />
         Add card
@@ -54,18 +54,18 @@ export default function AddCardModal() {
           aria-label="Add a card"
         >
           <div
-            className="relative my-8 w-full max-w-2xl rounded-2xl border border-white/10 bg-[#0f1529] p-6 text-white shadow-2xl"
+            className="zen-shadow bg-card text-foreground relative my-8 w-full max-w-2xl p-6"
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Add a card</h2>
+              <h2 className="text-foreground font-sans text-lg font-extrabold">Add a card</h2>
               <button
                 type="button"
                 onClick={close}
                 aria-label="Close"
-                className="rounded-lg p-1.5 text-blue-100/70 transition-colors hover:bg-white/10 hover:text-white"
+                className="text-muted-foreground hover:bg-accent hover:text-accent-foreground p-1.5 transition-colors"
               >
                 <X className="size-5" />
               </button>

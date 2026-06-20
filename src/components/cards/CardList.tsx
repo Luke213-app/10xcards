@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Pencil, Trash2, Check, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/Textarea";
 import type { Flashcard, FlashcardSource, UpdateFlashcardCommand } from "@/types";
 
 // Interactive owner of the user's saved collection. Seeded from SSR data
@@ -145,12 +146,12 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
           row.draftBack.length > FIELD_MAX;
 
         return (
-          <li key={card.id} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <li key={card.id} className="zen-shadow bg-card p-6">
             <div className="mb-2 flex items-center justify-between gap-3">
-              <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-xs font-medium text-blue-100/80">
+              <span className="border-foreground bg-accent text-accent-foreground inline-block border-2 px-2.5 py-0.5 text-[11px] font-medium tracking-[0.1em] uppercase">
                 {SOURCE_LABELS[card.source]}
               </span>
-              <time dateTime={card.createdAt} className="text-xs text-blue-100/50">
+              <time dateTime={card.createdAt} className="text-muted-foreground text-xs">
                 {formatDate(card.createdAt)}
               </time>
             </div>
@@ -158,8 +159,10 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
             {row.mode === "editing" ? (
               <div className="space-y-3">
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-blue-100/60">Front</label>
-                  <textarea
+                  <label className="text-muted-foreground mb-1 block text-[11px] font-medium tracking-[0.1em] uppercase">
+                    Front
+                  </label>
+                  <Textarea
                     value={row.draftFront}
                     maxLength={FIELD_MAX}
                     disabled={row.saving}
@@ -167,12 +170,14 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                       patchRow(card.id, { draftFront: e.target.value });
                     }}
                     rows={2}
-                    className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60 disabled:opacity-50"
+                    className="text-sm"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-blue-100/60">Back</label>
-                  <textarea
+                  <label className="text-muted-foreground mb-1 block text-[11px] font-medium tracking-[0.1em] uppercase">
+                    Back
+                  </label>
+                  <Textarea
                     value={row.draftBack}
                     maxLength={FIELD_MAX}
                     disabled={row.saving}
@@ -180,18 +185,18 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                       patchRow(card.id, { draftBack: e.target.value });
                     }}
                     rows={3}
-                    className="w-full resize-y rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-white outline-none focus:border-purple-400/60 disabled:opacity-50"
+                    className="text-sm"
                   />
                 </div>
               </div>
             ) : (
               <>
-                <p className="font-semibold whitespace-pre-wrap text-white">{card.front}</p>
-                <p className="mt-2 text-sm whitespace-pre-wrap text-blue-100/70">{card.back}</p>
+                <p className="text-foreground font-semibold whitespace-pre-wrap">{card.front}</p>
+                <p className="text-muted-foreground mt-2 text-sm whitespace-pre-wrap">{card.back}</p>
               </>
             )}
 
-            {row.error && <p className="mt-2 text-sm text-red-300">{row.error}</p>}
+            {row.error && <p className="text-destructive mt-2 text-sm">{row.error}</p>}
 
             <div className="mt-3 flex gap-2">
               {row.mode === "editing" ? (
@@ -203,7 +208,6 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                     onClick={() => {
                       void save(card.id);
                     }}
-                    className="bg-purple-600 text-white hover:bg-purple-500"
                   >
                     {row.saving ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}
                     Save
@@ -216,7 +220,6 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                     onClick={() => {
                       cancelEdit(card.id);
                     }}
-                    className="border-white/20 bg-transparent text-white hover:bg-white/10"
                   >
                     <X className="size-4" />
                     Cancel
@@ -224,7 +227,7 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                 </>
               ) : row.mode === "confirmingDelete" ? (
                 <>
-                  <span className="mr-1 self-center text-sm text-blue-100/70">Delete this card?</span>
+                  <span className="text-muted-foreground mr-1 self-center text-sm">Delete this card?</span>
                   <Button
                     type="button"
                     size="sm"
@@ -245,7 +248,6 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                     onClick={() => {
                       cancelDelete(card.id);
                     }}
-                    className="border-white/20 bg-transparent text-white hover:bg-white/10"
                   >
                     <X className="size-4" />
                     Cancel
@@ -260,7 +262,6 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                     onClick={() => {
                       startEdit(card.id);
                     }}
-                    className="border-white/20 bg-transparent text-white hover:bg-white/10"
                   >
                     <Pencil className="size-4" />
                     Edit
@@ -272,7 +273,7 @@ export default function CardList({ cards }: { cards: Flashcard[] }) {
                     onClick={() => {
                       startDelete(card.id);
                     }}
-                    className="border-white/20 bg-transparent text-red-300 hover:bg-red-500/10"
+                    className="text-destructive"
                   >
                     <Trash2 className="size-4" />
                     Delete

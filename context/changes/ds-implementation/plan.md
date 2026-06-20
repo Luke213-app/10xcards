@@ -408,28 +408,28 @@ Restyle the spaced-repetition review screen with zen-faithful grade buttons, the
 
 #### Automated
 
-- [x] 3.1 Linting passes: `npm run lint`
-- [x] 3.2 Production build succeeds: `npm run build`
-- [x] 3.3 No dark/glass/gradient utilities left in `dashboard.astro`
+- [x] 3.1 Linting passes: `npm run lint` — cdd80f3
+- [x] 3.2 Production build succeeds: `npm run build` — cdd80f3
+- [x] 3.3 No dark/glass/gradient utilities left in `dashboard.astro` — cdd80f3
 
 #### Manual
 
-- [x] 3.4 `/dashboard` renders fully zen; three actions correct with hover press
-- [x] 3.5 Navigation to `/review` and `/cards` works
+- [x] 3.4 `/dashboard` renders fully zen; three actions correct with hover press — cdd80f3
+- [x] 3.5 Navigation to `/review` and `/cards` works — cdd80f3
 
 ### Phase 4: My Cards
 
 #### Automated
 
-- [ ] 4.1 Linting passes: `npm run lint`
-- [ ] 4.2 Production build succeeds: `npm run build`
-- [ ] 4.3 No dark/glass utilities left in `cards/index.astro`, `CardList.tsx`, `AddCardModal.tsx`
+- [x] 4.1 Linting passes: `npm run lint`
+- [x] 4.2 Production build succeeds: `npm run build`
+- [x] 4.3 No dark/glass utilities left in `cards/index.astro`, `CardList.tsx`, `AddCardModal.tsx`
 
 #### Manual
 
-- [ ] 4.4 `/cards` renders fully zen across empty/error/populated states
-- [ ] 4.5 Edit/save/cancel/delete per card work
-- [ ] 4.6 FAB opens modal; backdrop + Esc dismiss; modal looks zen
+- [x] 4.4 `/cards` renders fully zen across empty/error/populated states
+- [x] 4.5 Edit/save/cancel/delete per card work
+- [x] 4.6 FAB opens modal; backdrop + Esc dismiss; modal looks zen
 
 ### Phase 5: Create Flashcards (Generate + Manual)
 
