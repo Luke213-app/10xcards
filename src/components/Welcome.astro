@@ -1,5 +1,27 @@
 ---
-import Topbar from "@/components/Topbar.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Panel from "@/components/ui/Panel.astro";
+import Cta from "@/components/ui/Cta.astro";
+
+// Public landing (R1). Matches reference/ref-landing.png. A logged-in visitor
+// never reaches this — middleware redirects them to /dashboard (Phase 2).
+const features = [
+  {
+    title: "Active recall",
+    body: "Test yourself instead of re-reading. Retrieval builds stronger memory traces.",
+    icon: "recall",
+  },
+  {
+    title: "Spaced repetition",
+    body: "Review each card right before you'd forget it. Less time, deeper retention.",
+    icon: "repeat",
+  },
+  {
+    title: "It's for free",
+    body: "Free forever. We will never charge you for anything!",
+    icon: "zap",
+  },
+];
 ---
 
 <div class="bg-cosmic relative min-h-screen w-full overflow-hidden">
@@ -25,102 +47,113 @@ import Topbar from "@/components/Topbar.astro";
   </div>
 
   <div class="relative z-10 p-4 sm:p-8">
-    <Topbar />
+    <!-- Public header (not AppHeader): brand + Sign in / Sign up -->
+    <header class="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-2 text-white transition-opacity hover:opacity-80">
+        <span
+          class="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 2a3 3 0 0 0-3 3v14a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+            <path d="M9 8h6"></path>
+          </svg>
+        </span>
+        <span class="text-base font-semibold">Recall</span>
+      </a>
+      <div class="flex items-center gap-3 text-sm">
+        <a href="/auth/signin" class="text-blue-100/70 transition-colors hover:text-white">Sign in</a>
+        <Cta href="/auth/signup" variant="secondary">Sign up</Cta>
+      </div>
+    </header>
 
     <!-- Hero section -->
-    <div class="mx-auto flex max-w-4xl flex-col items-center justify-center px-4 py-24 text-center sm:py-32 lg:py-40">
-      <h1
-        class="mb-6 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-5xl leading-tight font-bold text-transparent sm:text-6xl lg:text-7xl"
-      >
-        10x Astro Starter
+    <div class="mx-auto flex max-w-4xl flex-col items-center justify-center px-4 py-24 text-center sm:py-32">
+      <Badge class="mb-8 gap-2 text-blue-100/80">
+        <span class="size-1.5 rounded-full bg-purple-400"></span>
+        Free &amp; open source
+      </Badge>
+      <h1 class="mb-6 text-5xl leading-tight font-bold text-white sm:text-6xl lg:text-7xl">
+        Remember <span class="bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent"
+          >everything</span
+        > you learn.
       </h1>
-      <p class="mb-10 max-w-2xl text-lg text-blue-100/70 sm:text-xl">
-        A production-ready starter with authentication, modern tooling, and a cosmic developer experience.
+      <p class="max-w-2xl text-lg text-blue-100/70 sm:text-xl">
+        Flashcard program that helps you memorize vast amounts of information.
       </p>
-      <div class="flex flex-col gap-4 sm:flex-row">
-        <a
-          href="/auth/signin"
-          class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
-        >
-          Sign In
-        </a>
-        <a
-          href="/auth/signup"
-          class="inline-flex items-center justify-center rounded-lg border border-white/20 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10"
-        >
-          Sign Up
-        </a>
-      </div>
     </div>
 
     <!-- Feature cards -->
-    <div class="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-4 pb-24 sm:grid-cols-3">
-      <div class="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="mb-4 text-purple-300"
-        >
-          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Authentication Ready</h3>
-        <p class="text-sm leading-relaxed text-blue-100/60">
-          Built-in Supabase auth with sign in, sign up, and protected routes out of the box.
-        </p>
-      </div>
-
-      <div class="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="mb-4 text-purple-300"
-        >
-          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-          <polyline points="2 17 12 22 22 17"></polyline>
-          <polyline points="2 12 12 17 22 12"></polyline>
-        </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Modern Stack</h3>
-        <p class="text-sm leading-relaxed text-blue-100/60">
-          Astro 5, React 19, Tailwind 4, and TypeScript — the latest tools, ready to go.
-        </p>
-      </div>
-
-      <div class="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="mb-4 text-purple-300"
-        >
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
-        </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Developer Experience</h3>
-        <p class="text-sm leading-relaxed text-blue-100/60">
-          ESLint, Prettier, and pre-commit hooks keep your codebase clean from day one.
-        </p>
-      </div>
+    <div class="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-4 pb-24 sm:grid-cols-3">
+      {
+        features.map((feature) => (
+          <Panel class="p-6 backdrop-blur-xl">
+            <span class="mb-4 flex size-10 items-center justify-center rounded-xl bg-white/10 text-purple-300">
+              {feature.icon === "recall" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="6" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
+              )}
+              {feature.icon === "repeat" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m17 2 4 4-4 4" />
+                  <path d="M3 11v-1a4 4 0 0 1 4-4h14" />
+                  <path d="m7 22-4-4 4-4" />
+                  <path d="M21 13v1a4 4 0 0 1-4 4H3" />
+                </svg>
+              )}
+              {feature.icon === "zap" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+                </svg>
+              )}
+            </span>
+            <h3 class="mb-2 text-lg font-semibold text-white">{feature.title}</h3>
+            <p class="text-sm leading-relaxed text-blue-100/60">{feature.body}</p>
+          </Panel>
+        ))
+      }
     </div>
   </div>
 </div>
