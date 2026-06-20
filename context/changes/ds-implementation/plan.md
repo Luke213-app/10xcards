@@ -450,12 +450,12 @@ Restyle the spaced-repetition review screen with zen-faithful grade buttons, the
 
 #### Automated
 
-- [x] 6.1 Linting passes: `npm run lint`
-- [x] 6.2 Production build succeeds: `npm run build`
-- [x] 6.3 Repo-wide dark/glass/gradient sweep clean across `src/`
+- [x] 6.1 Linting passes: `npm run lint` — 4089dd4
+- [x] 6.2 Production build succeeds: `npm run build` — 4089dd4
+- [x] 6.3 Repo-wide dark/glass/gradient sweep clean across `src/` — 4089dd4
 
 #### Manual
 
-- [x] 6.4 `/review` renders fully zen; flip + all four grades work; grade buttons zen-faithful and distinguishable
-- [x] 6.5 Full walkthrough of all routes shows one consistent zen look with brand fonts
-- [x] 6.6 No visual regressions in any flow
+- [x] 6.4 `/review` renders fully zen; flip + all four grades work; grade buttons zen-faithful and distinguishable — 4089dd4
+- [x] 6.5 Full walkthrough of all routes shows one consistent zen look with brand fonts — 4089dd4
+- [x] 6.6 No visual regressions in any flow — 4089dd4
