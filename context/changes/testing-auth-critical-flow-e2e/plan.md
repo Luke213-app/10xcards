@@ -500,11 +500,11 @@ reset` when needed. Seeding uses service_role + explicit `user_id` (RLS bypass).
 
 #### Automated
 
-- [ ] 5.1 CI e2e job runs green on push/PR (full suite passes in CI)
-- [x] 5.2 Local full run passes: `npm run test:e2e`
-- [x] 5.3 Lint passes: `npm run lint`
+- [x] 5.1 CI e2e job runs green on push/PR (full suite passes in CI) — 272c638
+- [x] 5.2 Local full run passes: `npm run test:e2e` — 2e34b34
+- [x] 5.3 Lint passes: `npm run lint` — 2e34b34
 
 #### Manual
 
-- [ ] 5.4 CI provisions Supabase + completes suite without manual steps
-- [ ] 5.5 `test-plan.md` §5/§6 reflect the shipped gate and pattern
+- [x] 5.4 CI provisions Supabase + completes suite without manual steps — 272c638
+- [x] 5.5 `test-plan.md` §5/§6 reflect the shipped gate and pattern — 2e34b34

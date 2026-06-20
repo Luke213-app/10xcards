@@ -1,7 +1,7 @@
 ---
 change_id: testing-auth-critical-flow-e2e
 title: Auth & critical-flow e2e — Phase 3 of the test rollout
-status: implementing
+status: implemented
 created: 2026-06-20
 updated: 2026-06-20
 archived_at: null
