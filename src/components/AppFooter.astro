@@ -1,0 +1,22 @@
+---
+// The one element present on every authed page (including the header-less
+// dashboard); carries the always-available sign-out control, centralizing the
+// form that used to be duplicated across Topbar and dashboard.
+---
+
+<footer
+  class="mx-auto mt-12 flex w-full max-w-5xl items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-blue-100/60"
+>
+  <span>© 2026 10xCards</span>
+  <div class="flex items-center gap-4">
+    <a
+      href="https://github.com/przeprogramowani/10x-astro-starter"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="transition-colors hover:text-white">Source</a
+    >
+    <form method="POST" action="/api/auth/signout">
+      <button type="submit" class="transition-colors hover:text-white">Sign out</button>
+    </form>
+  </div>
+</footer>

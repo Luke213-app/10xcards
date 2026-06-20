@@ -348,9 +348,9 @@ None — no data or schema changes. `/cards/new` becomes a redirect, so any exis
 
 #### Automated
 
-- [ ] 1.1 Linting passes: `npm run lint`
-- [ ] 1.2 Production build succeeds: `npm run build`
-- [ ] 1.3 New components exist (AppHeader.astro, AppFooter.astro, primitives)
+- [x] 1.1 Linting passes: `npm run lint`
+- [x] 1.2 Production build succeeds: `npm run build`
+- [x] 1.3 New components exist (AppHeader.astro, AppFooter.astro, primitives)
 
 #### Manual
 
