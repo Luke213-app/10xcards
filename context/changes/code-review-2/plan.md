@@ -362,14 +362,14 @@ Ship the reviewer into CI: a composite action wraps the review step (keeps the w
 
 #### Automated
 
-- [x] 4.1 Workflow + action YAML valid (`actionlint`)
-- [ ] 4.2 `npm ci` resolves the workspace in CI
-- [ ] 4.3 Job completes and emits a verdict output on a test PR
+- [x] 4.1 Workflow + action YAML valid (`actionlint`) — 5bec909
+- [x] 4.2 `npm ci` resolves the workspace in CI — 43c6b1d
+- [x] 4.3 Job completes and emits a verdict output on a test PR — 43c6b1d
 
 #### Manual
 
-- [ ] 4.4 PR comment (single `<!-- ai-cr:marker -->`) shows 5 scores, average, verdict, findings
-- [ ] 4.5 Correct colored label applied, opposite removed
-- [ ] 4.6 `reviews/ai-cr.md` committed without retriggering the workflow (`[skip ci]`)
-- [ ] 4.7 `ai-cr:review` label re-runs and updates in place
-- [ ] 4.8 Merge not blocked (advisory); existing `review.yml` unaffected; `OPENROUTER_API_KEY` secret set
+- [x] 4.4 PR comment (single `<!-- ai-cr:marker -->`) shows 5 scores, average, verdict, findings — 43c6b1d
+- [x] 4.5 Correct colored label applied, opposite removed — 43c6b1d
+- [x] 4.6 `reviews/ai-cr.md` committed without retriggering the workflow (`[skip ci]`) — 43c6b1d
+- [ ] 4.7 `ai-cr:review` label re-runs and updates in place — deferred: wiring verified (actionlint + job-if); GitHub did not deliver `labeled`/`opened`/`reopened` events in-session (only push/`synchronize` fired), so the label retry could not be demonstrated live. Verify post-merge once `ai-cr.yml` is on `master`. Risk noted: `[skip ci]` on the report-commit HEAD may suppress the `labeled` re-trigger (tension with 4.6); recursion is independently prevented by the `GITHUB_TOKEN`-push rule.
+- [x] 4.8 Merge not blocked (advisory); existing `review.yml` unaffected; `OPENROUTER_API_KEY` secret set — 43c6b1d
