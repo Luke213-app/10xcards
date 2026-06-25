@@ -191,16 +191,18 @@ jobs:
         # whether the Claude step ran — catches off-contract bot commits that
         # would otherwise pass silently.
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          # Fetch the true branch tip — our local clone predates any commit the
-          # Claude step pushed during this run.
-          git fetch origin "$HEAD_REF" --depth=2 2>&1 | tail -1
-          TIP=$(git rev-parse FETCH_HEAD)
-          AUTHOR=$(git log -1 --format='%an' FETCH_HEAD)
-          SUBJECT=$(git log -1 --format='%s' FETCH_HEAD)
+          # Use the LOCAL tip, not a fresh `git fetch origin`. In non-signing
+          # mode (use_commit_signing: false) the skill runs `git commit` in this
+          # same checkout, so local HEAD already IS the bot's review commit and
+          # the report is in the working tree — exactly what the verdict step
+          # below relies on. A `git fetch origin` here also fails outright:
+          # claude-code-action rewrites git's auth during its run, leaving
+          # subsequent steps unauthenticated ("fatal: Authentication failed",
+          # observed on PR #15). Reading local HEAD avoids that dependency.
+          TIP=$(git rev-parse HEAD)
+          AUTHOR=$(git log -1 --format='%an' HEAD)
+          SUBJECT=$(git log -1 --format='%s' HEAD)
           echo "Branch tip: sha=${TIP:0:10} author=\"$AUTHOR\" subject=\"$SUBJECT\""
 
           # Only validate commits authored by the bot; human commits aren't
@@ -223,11 +225,11 @@ jobs:
           # `<!-- IMPL-REVIEW-REPORT -->` so downstream triage tooling can route
           # the file. Catch model drift loudly so the PR Check goes red instead
           # of silently landing an off-contract report.
-          REVIEW_FILE=$(git show --name-only --format= FETCH_HEAD \
+          REVIEW_FILE=$(git show --name-only --format= HEAD \
             | grep -E '(^|/)context/changes/[^/]+/reviews/impl-review.*\.md$' \
             | head -1)
           if [ -n "$REVIEW_FILE" ]; then
-            FIRST_LINE=$(git show "FETCH_HEAD:$REVIEW_FILE" | head -1)
+            FIRST_LINE=$(git show "HEAD:$REVIEW_FILE" | head -1)
             if [[ "$FIRST_LINE" != "<!-- IMPL-REVIEW-REPORT -->" ]]; then
               echo "::error title=Skill output contract violated::Review file $REVIEW_FILE does not start with the <!-- IMPL-REVIEW-REPORT --> marker. First line was: \"$FIRST_LINE\". Model likely discovered the skill but improvised the output format."
               FAILED=1
