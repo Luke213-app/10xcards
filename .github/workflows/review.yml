@@ -115,13 +115,28 @@ jobs:
           # user-level skills dir lives outside the repo tree, so the action's
           # sensitive-path handling can't reach it.
           #
-          # Source from origin/<base-ref> so the skill state matches what this
-          # PR is reviewed against, and so PRs branched off before the skill
-          # was vendored still get it.
+          # Prefer the TRUSTED base copy: a malicious PR head can't tamper with
+          # the review skill itself, and this also serves PRs branched off
+          # before the skill was vendored (their head lacks it; base has it).
+          # Fall back to the PR-head working-tree copy on FIRST ROLLOUT, when
+          # the skill isn't on the base branch yet — without this, the very PR
+          # that introduces the skill can never be reviewed. Safe because the
+          # fork guard (job-level `if:`) restricts this job to same-repo PRs
+          # from trusted collaborators, so the head copy is not attacker-controlled.
           git fetch origin "$BASE_REF" --depth=1 2>&1 | tail -1
           mkdir -p "$HOME/.claude/skills"
-          git archive "origin/$BASE_REF" .claude/skills/10x-impl-review-ci \
-            | tar -x --strip-components=2 -C "$HOME/.claude/skills/"
+          SKILL_PATH=".claude/skills/10x-impl-review-ci"
+          if git cat-file -e "origin/$BASE_REF:$SKILL_PATH/SKILL.md" 2>/dev/null; then
+            echo "Staging skill from origin/$BASE_REF (trusted base)."
+            git archive "origin/$BASE_REF" "$SKILL_PATH" \
+              | tar -x --strip-components=2 -C "$HOME/.claude/skills/"
+          elif [ -d "$SKILL_PATH" ]; then
+            echo "Skill not on base yet (first rollout) — staging from PR head working tree."
+            cp -R "$SKILL_PATH" "$HOME/.claude/skills/"
+          else
+            echo "::error title=Skill not found::impl-review-ci skill missing on both base and head; cannot stage."
+            exit 1
+          fi
 
       - name: Run AI review (CI)
         if: steps.guard.outputs.skip != 'true'
