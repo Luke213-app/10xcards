@@ -340,30 +340,30 @@ Make the review job a **required status check** on `master` so a failed review b
 
 #### Automated
 
-- [x] 3.1 Workflow exists and parses (YAML lint / `actionlint` if available)
-- [x] 3.2 Trigger `paths:` mirror `.github/workflows/ci.yml`
-- [x] 3.3 No secret literals in the file (only `${{ secrets.ANTHROPIC_API_KEY }}`)
+- [x] 3.1 Workflow exists and parses (YAML lint / `actionlint` if available) — 5edb508
+- [x] 3.2 Trigger `paths:` mirror `.github/workflows/ci.yml` — 5edb508
+- [x] 3.3 No secret literals in the file (only `${{ secrets.ANTHROPIC_API_KEY }}`) — 5edb508
 
 #### Manual
 
-- [x] 3.4 `prompt:` invokes `/10x-impl-review-ci` with documented args
-- [x] 3.5 `--model claude-sonnet-4-6` set; `--allowedTools` matches skill's tool calls
-- [x] 3.6 Gate step pass/fail signal matches skill's real output contract
+- [x] 3.4 `prompt:` invokes `/10x-impl-review-ci` with documented args — 5edb508
+- [x] 3.5 `--model claude-sonnet-4-6` set; `--allowedTools` matches skill's tool calls — 5edb508
+- [x] 3.6 Gate step pass/fail signal matches skill's real output contract — 5edb508
 
 ### Phase 4: Prove it on a throwaway PR (no merge gate yet)
 
 #### Automated
 
-- [ ] 4.1 Workflow ran on the test PR: `gh run list --workflow=review.yml`
-- [ ] 4.2 Run reached the action step: `gh run view <id> --log`
+- [x] 4.1 Workflow ran on the test PR: `gh run list --workflow=review.yml` — c094091
+- [x] 4.2 Run reached the action step: `gh run view <id> --log` — c094091
 
 #### Manual
 
-- [ ] 4.3 Formal GitHub Review from Claude appears on the test PR
-- [ ] 4.4 Correct `ai-cr:passed` / `ai-cr:failed` label applied
-- [ ] 4.5 Bad change → `ai-cr:failed` + red job; clean change → `ai-cr:passed` + green
-- [ ] 4.6 Review quality reasonable on Sonnet (prompt tuned if needed)
-- [ ] 4.7 Throwaway PR/branch closed and deleted
+- [x] 4.3 Formal GitHub Review from Claude appears on the test PR — c094091
+- [x] 4.4 Correct `ai-cr:passed` / `ai-cr:failed` label applied — c094091 (satisfied via the `impl-review-ci/verdict` commit-status = APPROVED; the label contract was superseded by the verdict-status design in Phase 3)
+- [ ] 4.5 Bad change → `ai-cr:failed` + red job; clean change → `ai-cr:passed` + green — clean → APPROVED → fully green proven (run 28171295219); bad → REJECTED → red path deferred to Phase 5 (consciously skipped here)
+- [x] 4.6 Review quality reasonable on Sonnet (prompt tuned if needed) — c094091
+- [x] 4.7 Throwaway PR/branch closed and deleted — PRs #13 & #15 closed, branches deleted
 
 ### Phase 5: Turn on the merge gate (required status check)
 
