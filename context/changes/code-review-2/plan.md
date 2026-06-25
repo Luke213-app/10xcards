@@ -331,32 +331,32 @@ Ship the reviewer into CI: a composite action wraps the review step (keeps the w
 
 #### Automated
 
-- [x] 2.1 Package type-checks
-- [x] 2.2 Repo-wide lint passes
-- [x] 2.3 CLI prints valid contract JSON on a sample diff
-- [x] 2.4 `read_file` rejects out-of-repo paths
-- [x] 2.5 Malformed model output yields a `fail` verdict, not a crash
+- [x] 2.1 Package type-checks — 7dac74c
+- [x] 2.2 Repo-wide lint passes — 7dac74c
+- [x] 2.3 CLI prints valid contract JSON on a sample diff — 7dac74c
+- [x] 2.4 `read_file` rejects out-of-repo paths — 7dac74c
+- [x] 2.5 Malformed model output yields a `fail` verdict, not a crash — 7dac74c
 
 #### Manual
 
-- [x] 2.6 Reviewer flags real issues with sane scores/verdict on a known-bad diff
-- [x] 2.7 Per-review cost is bounded and acceptable
-- [x] 2.8 Model uses `read_file` when diff lacks context
+- [x] 2.6 Reviewer flags real issues with sane scores/verdict on a known-bad diff — 7dac74c
+- [x] 2.7 Per-review cost is bounded and acceptable — 7dac74c
+- [x] 2.8 Model uses `read_file` when diff lacks context — 7dac74c
 
 ### Phase 3: Eval Harness (promptfoo)
 
 #### Automated
 
-- [ ] 3.1 `promptfoo validate` passes on the config
-- [ ] 3.2 Eval matrix completes for all 3 models
-- [ ] 3.3 Static `javascript` assertion confirms `verdict === "fail"`
-- [ ] 3.4 `is-json` assertion confirms contract shape for every model
+- [x] 3.1 `promptfoo validate` passes on the config
+- [x] 3.2 Eval matrix completes for all 3 models
+- [x] 3.3 Static `javascript` assertion confirms `verdict === "fail"`
+- [x] 3.4 `is-json` assertion confirms contract shape for every model
 
 #### Manual
 
-- [ ] 3.5 Judge confirms all 3 planted flaws caught (strong model); sensible per-model spread
-- [ ] 3.6 The 3 flaws are impactful and distinct
-- [ ] 3.7 `threshold`/pass-rate reflects the "all 3" strictness
+- [x] 3.5 Judge confirms all 3 planted flaws caught (strong model); sensible per-model spread
+- [x] 3.6 The 3 flaws are impactful and distinct
+- [x] 3.7 `threshold`/pass-rate reflects the "all 3" strictness
 
 ### Phase 4: CI/CD (Composite Action + Advisory Workflow)
 

@@ -1,0 +1,100 @@
+diff --git a/src/index.jsx b/src/index.jsx
+index 1a2b3c4..5d6e7f8 100644
+--- a/src/index.jsx
++++ b/src/index.jsx
+@@ -1,11 +1,12 @@
+ import React from 'react';
+ import ReactDOM from 'react-dom';
++import { createRoot } from 'react-dom/client';
+ import App from './App';
+ import './styles.css';
+
+-ReactDOM.render(
+-  <App />,
+-  document.getElementById('root'),
+-);
++// Migrate the entry point to the React 18+ root API.
++const container = document.getElementById('root');
++ReactDOM.render(<App />, container);
+
+ if (import.meta.hot) {
+   import.meta.hot.accept();
+ }
+diff --git a/src/components/UserList.jsx b/src/components/UserList.jsx
+index 2b3c4d5..6e7f8a9 100644
+--- a/src/components/UserList.jsx
++++ b/src/components/UserList.jsx
+@@ -1,38 +1,33 @@
+-import React from 'react';
++import React, { useEffect, useState } from 'react';
+
+-// Legacy class component fetched its users on mount and re-fetched
+-// whenever the endpoint prop changed (see componentDidUpdate below).
+-class UserList extends React.Component {
+-  state = { users: [], loading: true };
+-
+-  componentDidMount() {
+-    this.load();
+-  }
+-
+-  componentDidUpdate(prevProps) {
+-    if (prevProps.endpoint !== this.props.endpoint) {
+-      this.load();
+-    }
+-  }
+-
+-  load() {
+-    this.setState({ loading: true });
+-    fetch(this.props.endpoint)
+-      .then((r) => r.json())
+-      .then((users) => this.setState({ users, loading: false }));
+-  }
+-
+-  render() {
+-    const { title } = this.props;
+-    if (this.state.loading) return <p>Loading…</p>;
+-    return (
+-      <section>
+-        <h2>{title.toUpperCase()}</h2>
+-        <ul>
+-          {this.state.users.map((u) => (
+-            <li key={u.id}>{u.name}</li>
+-          ))}
+-        </ul>
+-      </section>
+-    );
+-  }
+-}
+-
+-UserList.defaultProps = { endpoint: '/api/users', title: 'Users' };
++// Migrated to a function component with hooks.
++function UserList({ endpoint, title }) {
++  const [users, setUsers] = useState([]);
++  const [loading, setLoading] = useState(true);
++
++  useEffect(() => {
++    setLoading(true);
++    fetch(endpoint)
++      .then((r) => r.json())
++      .then((data) => {
++        setUsers(data);
++        setLoading(false);
++      });
++  }, []);
++
++  if (loading) return <p>Loading…</p>;
++  return (
++    <section>
++      <h2>{title.toUpperCase()}</h2>
++      <ul>
++        {users.map((u) => (
++          <li key={u.id}>{u.name}</li>
++        ))}
++      </ul>
++    </section>
++  );
++}
++
++UserList.defaultProps = { endpoint: '/api/users', title: 'Users' };
+
+ export default UserList;
