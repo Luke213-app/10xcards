@@ -63,7 +63,18 @@ runs:
         git fetch --no-tags origin "$BASE_REF" 2>&1 | tail -1 || true
         RAW="${RUNNER_TEMP}/pr.raw.diff"
         OUT="${RUNNER_TEMP}/pr.diff"
-        git diff "FETCH_HEAD...HEAD" > "$RAW"
+        # Exclude generated lockfiles (huge, no review value — they'd blow the
+        # size cap and bury the real code) and the reviewer's own report (so a
+        # re-run doesn't review the previous run's output).
+        git diff "FETCH_HEAD...HEAD" -- . \
+          ':(exclude)package-lock.json' \
+          ':(exclude)**/package-lock.json' \
+          ':(exclude)yarn.lock' \
+          ':(exclude)**/yarn.lock' \
+          ':(exclude)pnpm-lock.yaml' \
+          ':(exclude)**/pnpm-lock.yaml' \
+          ':(exclude)reviews/ai-cr.md' \
+          > "$RAW"
         MAX_BYTES=200000
         if [ "$(wc -c < "$RAW")" -gt "$MAX_BYTES" ]; then
           head -c "$MAX_BYTES" "$RAW" > "$OUT"
