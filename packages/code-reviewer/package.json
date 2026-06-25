@@ -9,6 +9,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "check": "tsx scripts/checks.ts",
     "review": "tsx src/cli.ts",
     "eval": "promptfoo eval -c eval/promptfooconfig.yaml"
   },

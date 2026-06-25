@@ -1,0 +1,24 @@
+diff --git a/src/pages/api/flashcards.ts b/src/pages/api/flashcards.ts
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/src/pages/api/flashcards.ts
+@@ -0,0 +1,18 @@
++import type { APIRoute } from "astro";
++import { createSupabaseServerClient } from "@/lib/supabase";
++
++export const POST: APIRoute = async ({ request, locals }) => {
++  const body = await request.json();
++  const supabase = createSupabaseServerClient({ request, locals });
++
++  const { data, error } = await supabase
++    .from("flashcards")
++    .insert({ front: body.front, back: body.back, user_id: body.userId })
++    .select()
++    .single();
++
++  if (error) {
++    return new Response("db error: " + error.message, { status: 500 });
++  }
++  return new Response(JSON.stringify(data), { status: 200 });
++};

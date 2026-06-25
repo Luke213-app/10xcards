@@ -316,32 +316,32 @@ Ship the reviewer into CI: a composite action wraps the review step (keeps the w
 
 #### Automated
 
-- [x] 1.1 `npm install` resolves the `@10xcards/code-reviewer` workspace symlink
-- [x] 1.2 Package type-checks in isolation
-- [x] 1.3 Root app still builds (`npm run build`)
-- [x] 1.4 Repo-wide lint passes (`npm run lint`)
-- [x] 1.5 `decide()` returns `fail` on correctness/security `<5` even with average `≥7`
+- [x] 1.1 `npm install` resolves the `@10xcards/code-reviewer` workspace symlink — 83a8181
+- [x] 1.2 Package type-checks in isolation — 83a8181
+- [x] 1.3 Root app still builds (`npm run build`) — 83a8181
+- [x] 1.4 Repo-wide lint passes (`npm run lint`) — 83a8181
+- [x] 1.5 `decide()` returns `fail` on correctness/security `<5` even with average `≥7` — 83a8181
 
 #### Manual
 
-- [x] 1.6 Schema fields map 1:1 to the 5 criteria + B decision model
-- [x] 1.7 No identifier collision with the existing reviewer
+- [x] 1.6 Schema fields map 1:1 to the 5 criteria + B decision model — 83a8181
+- [x] 1.7 No identifier collision with the existing reviewer — 83a8181
 
 ### Phase 2: The Reviewer Agent
 
 #### Automated
 
-- [ ] 2.1 Package type-checks
-- [ ] 2.2 Repo-wide lint passes
-- [ ] 2.3 CLI prints valid contract JSON on a sample diff
-- [ ] 2.4 `read_file` rejects out-of-repo paths
-- [ ] 2.5 Malformed model output yields a `fail` verdict, not a crash
+- [x] 2.1 Package type-checks
+- [x] 2.2 Repo-wide lint passes
+- [x] 2.3 CLI prints valid contract JSON on a sample diff
+- [x] 2.4 `read_file` rejects out-of-repo paths
+- [x] 2.5 Malformed model output yields a `fail` verdict, not a crash
 
 #### Manual
 
-- [ ] 2.6 Reviewer flags real issues with sane scores/verdict on a known-bad diff
-- [ ] 2.7 Per-review cost is bounded and acceptable
-- [ ] 2.8 Model uses `read_file` when diff lacks context
+- [x] 2.6 Reviewer flags real issues with sane scores/verdict on a known-bad diff
+- [x] 2.7 Per-review cost is bounded and acceptable
+- [x] 2.8 Model uses `read_file` when diff lacks context
 
 ### Phase 3: Eval Harness (promptfoo)
 
