@@ -314,27 +314,27 @@ Make the review job a **required status check** on `master` so a failed review b
 
 #### Automated
 
-- [x] 1.1 Skill present: `test -f .claude/skills/10x-impl-review-ci/SKILL.md`
-- [x] 1.2 Skill is tracked (not ignored): `git check-ignore` prints nothing
-- [x] 1.3 Sibling skill still ignored: `git check-ignore .claude/skills/zen` prints the path
-- [x] 1.4 Working tree staged only as intended: `git status --porcelain`
+- [x] 1.1 Skill present: `test -f .claude/skills/10x-impl-review-ci/SKILL.md` — db46f7a
+- [x] 1.2 Skill is tracked (not ignored): `git check-ignore` prints nothing — db46f7a
+- [x] 1.3 Sibling skill still ignored: `git check-ignore .claude/skills/zen` prints the path — db46f7a
+- [x] 1.4 Working tree staged only as intended: `git status --porcelain` — db46f7a
 
 #### Manual
 
-- [x] 1.5 10x-cli change report reviewed; any CLAUDE.md/rule edits a conscious accept
-- [x] 1.6 Committed skill contains no secrets / API keys
-- [x] 1.7 `SKILL.md` read; review contract (formal review / `ai-cr:*` labels / verdict file / args) understood
+- [x] 1.5 10x-cli change report reviewed; any CLAUDE.md/rule edits a conscious accept — db46f7a
+- [x] 1.6 Committed skill contains no secrets / API keys — db46f7a
+- [x] 1.7 `SKILL.md` read; review contract (formal review / `ai-cr:*` labels / verdict file / args) understood — db46f7a
 
 ### Phase 2: Provision the `ANTHROPIC_API_KEY` repo secret
 
 #### Automated
 
-- [ ] 2.1 Secret exists: `gh secret list` includes `ANTHROPIC_API_KEY`
+- [x] 2.1 Secret exists: `gh secret list` includes `ANTHROPIC_API_KEY`
 
 #### Manual
 
-- [ ] 2.2 Key from console.anthropic.com entered only into GitHub secret UI / `gh secret set` prompt
-- [ ] 2.3 No key value in shell history, repo, or any commit
+- [x] 2.2 Key from console.anthropic.com entered only into GitHub secret UI / `gh secret set` prompt
+- [x] 2.3 No key value in shell history, repo, or any commit
 
 ### Phase 3: Add the review workflow (`.github/workflows/review.yml`)
 
