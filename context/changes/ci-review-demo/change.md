@@ -1,6 +1,7 @@
 # ci-review-demo
 
-**Status:** in progress
+**Status:** impl_reviewed
+**Updated:** 2026-06-25
 
 ## What
 
