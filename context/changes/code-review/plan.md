@@ -329,26 +329,26 @@ Make the review job a **required status check** on `master` so a failed review b
 
 #### Automated
 
-- [x] 2.1 Secret exists: `gh secret list` includes `ANTHROPIC_API_KEY`
+- [x] 2.1 Secret exists: `gh secret list` includes `ANTHROPIC_API_KEY` — e2772f9
 
 #### Manual
 
-- [x] 2.2 Key from console.anthropic.com entered only into GitHub secret UI / `gh secret set` prompt
-- [x] 2.3 No key value in shell history, repo, or any commit
+- [x] 2.2 Key from console.anthropic.com entered only into GitHub secret UI / `gh secret set` prompt — e2772f9
+- [x] 2.3 No key value in shell history, repo, or any commit — e2772f9
 
 ### Phase 3: Add the review workflow (`.github/workflows/review.yml`)
 
 #### Automated
 
-- [ ] 3.1 Workflow exists and parses (YAML lint / `actionlint` if available)
-- [ ] 3.2 Trigger `paths:` mirror `.github/workflows/ci.yml`
-- [ ] 3.3 No secret literals in the file (only `${{ secrets.ANTHROPIC_API_KEY }}`)
+- [x] 3.1 Workflow exists and parses (YAML lint / `actionlint` if available)
+- [x] 3.2 Trigger `paths:` mirror `.github/workflows/ci.yml`
+- [x] 3.3 No secret literals in the file (only `${{ secrets.ANTHROPIC_API_KEY }}`)
 
 #### Manual
 
-- [ ] 3.4 `prompt:` invokes `/10x-impl-review-ci` with documented args
-- [ ] 3.5 `--model claude-sonnet-4-6` set; `--allowedTools` matches skill's tool calls
-- [ ] 3.6 Gate step pass/fail signal matches skill's real output contract
+- [x] 3.4 `prompt:` invokes `/10x-impl-review-ci` with documented args
+- [x] 3.5 `--model claude-sonnet-4-6` set; `--allowedTools` matches skill's tool calls
+- [x] 3.6 Gate step pass/fail signal matches skill's real output contract
 
 ### Phase 4: Prove it on a throwaway PR (no merge gate yet)
 
