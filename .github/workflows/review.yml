@@ -60,6 +60,9 @@ jobs:
       # Required for POSTing the "impl-review-ci/verdict" commit status to the
       # bot's SHA from the "Check review verdict" step.
       statuses: write
+      # claude-code-action@v1 fetches an OIDC token at startup; without this the
+      # action aborts with "Could not fetch an OIDC token" before Claude runs.
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
