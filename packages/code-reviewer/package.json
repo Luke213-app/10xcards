@@ -1,0 +1,26 @@
+{
+  "name": "@10xcards/code-reviewer",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Standalone OpenRouter Agent SDK code reviewer (advisory CI quality gate) with a promptfoo eval harness.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check": "tsx scripts/checks.ts",
+    "review": "tsx src/cli.ts",
+    "eval": "promptfoo eval -c eval/promptfooconfig.yaml"
+  },
+  "dependencies": {
+    "@openrouter/agent": "0.7.2",
+    "@openrouter/sdk": "0.13.14",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "promptfoo": "0.121.17",
+    "tsx": "4.22.4",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,123 @@
+name: "AI Quality Review (run)"
+description: "Install the code-reviewer package, build the PR diff, run the reviewer, and emit the contract JSON + report."
+
+inputs:
+  openrouter-api-key:
+    description: "OpenRouter API key for the reviewer model."
+    required: true
+  pr-title:
+    description: "Pull request title (fed to the reviewer as context)."
+    required: false
+    default: ""
+  pr-description:
+    description: "Pull request body/description (fed to the reviewer as context)."
+    required: false
+    default: ""
+  base-ref:
+    description: "Base branch name of the PR (e.g. master); the diff is computed as base...HEAD."
+    required: true
+  model:
+    description: "OpenRouter model slug to review with."
+    required: false
+    default: "anthropic/claude-sonnet-4.6"
+
+outputs:
+  verdict:
+    description: "pass | fail (decision model B)."
+    value: ${{ steps.format.outputs.verdict }}
+  average:
+    description: "Equal-weighted average of the 5 criterion scores."
+    value: ${{ steps.format.outputs.average }}
+  report-path:
+    description: "Path to the committed markdown report."
+    value: reviews/ai-cr.md
+
+runs:
+  using: composite
+  steps:
+    # Toolchain mirrors .github/workflows/ci.yml. Node 22 is pinned in .nvmrc.
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+
+    # `npm ci` at the repo root resolves all workspaces, including
+    # @10xcards/code-reviewer and its tsx/zod/agent deps (hoisted to root).
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+
+    # Build the PR diff (base...HEAD) into a size-capped file. We fetch the base
+    # branch first so the three-dot merge-base diff resolves even on a shallow
+    # head checkout. The cap bounds token cost on large PRs.
+    - name: Build PR diff
+      id: diff
+      shell: bash
+      env:
+        BASE_REF: ${{ inputs.base-ref }}
+      run: |
+        set -euo pipefail
+        # Fetch the base branch tip into FETCH_HEAD; diff base...HEAD (3-dot =
+        # changes introduced since the merge-base). FETCH_HEAD avoids depending
+        # on a remote-tracking ref being configured by the checkout.
+        git fetch --no-tags origin "$BASE_REF" 2>&1 | tail -1 || true
+        RAW="${RUNNER_TEMP}/pr.raw.diff"
+        OUT="${RUNNER_TEMP}/pr.diff"
+        # Exclude generated lockfiles (huge, no review value — they'd blow the
+        # size cap and bury the real code) and the reviewer's own report (so a
+        # re-run doesn't review the previous run's output).
+        git diff "FETCH_HEAD...HEAD" -- . \
+          ':(exclude)package-lock.json' \
+          ':(exclude)**/package-lock.json' \
+          ':(exclude)yarn.lock' \
+          ':(exclude)**/yarn.lock' \
+          ':(exclude)pnpm-lock.yaml' \
+          ':(exclude)**/pnpm-lock.yaml' \
+          ':(exclude)reviews/ai-cr.md' \
+          > "$RAW"
+        MAX_BYTES=200000
+        if [ "$(wc -c < "$RAW")" -gt "$MAX_BYTES" ]; then
+          head -c "$MAX_BYTES" "$RAW" > "$OUT"
+          printf '\n\n[diff truncated to %s bytes for review]\n' "$MAX_BYTES" >> "$OUT"
+          echo "Diff exceeded ${MAX_BYTES} bytes — truncated for review."
+        else
+          cp "$RAW" "$OUT"
+        fi
+        echo "diff-file=${OUT}" >> "$GITHUB_OUTPUT"
+        echo "Diff is $(wc -c < "$OUT") bytes."
+
+    # Run the reviewer CLI from the repo root so the read_file tool sandboxes to
+    # the repository (it resolves model-supplied paths against process.cwd()).
+    # The CLI prints the contract JSON to stdout; we capture it for formatting.
+    - name: Run reviewer
+      id: review
+      shell: bash
+      env:
+        OPENROUTER_API_KEY: ${{ inputs.openrouter-api-key }}
+        OPENROUTER_MODEL: ${{ inputs.model }}
+        PR_TITLE: ${{ inputs.pr-title }}
+        PR_DESCRIPTION: ${{ inputs.pr-description }}
+        DIFF_FILE: ${{ steps.diff.outputs.diff-file }}
+      run: |
+        set -euo pipefail
+        REVIEW_JSON="${RUNNER_TEMP}/review.json"
+        npx tsx packages/code-reviewer/src/cli.ts \
+          --diff "$DIFF_FILE" \
+          --title "$PR_TITLE" \
+          --description "$PR_DESCRIPTION" \
+          --model "$OPENROUTER_MODEL" \
+          --json > "$REVIEW_JSON"
+        echo "review-json=${REVIEW_JSON}" >> "$GITHUB_OUTPUT"
+
+    # Turn the JSON into reviews/ai-cr.md and expose verdict/average outputs.
+    - name: Format report
+      id: format
+      shell: bash
+      env:
+        MODEL: ${{ inputs.model }}
+        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        REVIEW_JSON: ${{ steps.review.outputs.review-json }}
+      run: |
+        set -euo pipefail
+        mkdir -p reviews
+        node "${GITHUB_ACTION_PATH}/format-report.mjs" "$REVIEW_JSON" "reviews/ai-cr.md"
