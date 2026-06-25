@@ -46,3 +46,49 @@ actually ran end-to-end):
 
 **Deferred:** the bad → REJECTED → red verdict path (plan row 4.5) was
 consciously skipped; Phase 5 will exercise real gating.
+
+### Phase 5 outcome (2026-06-25)
+
+The merge gate is **live on `master`**. `impl-review-ci/verdict` is now a
+**required status check** (branch-protection API,
+`required_status_checks.checks = [impl-review-ci/verdict]`, `strict:false`,
+`enforce_admins:false`).
+
+**Plan-vs-reality divergence (load-bearing):**
+
+- **Free private repo can't enable branch protection.** Both the
+  branch-protection and rulesets APIs returned HTTP 403 ("Upgrade to GitHub Pro
+  or make this repository public"). The repo is owned by a personal account on
+  the free plan. With user approval, the repo was **made public**
+  (`gh repo edit --visibility public`) to unblock the gate — history was scanned
+  first and contains no secrets (the only `sk-ant` hit is the grep-pattern text
+  inside `plan.md`). Alternatives offered and declined: keep private + defer, or
+  upgrade to Pro.
+- **Gate is the verdict commit-status, not `ai-cr:*` labels** (carried over from
+  Phase 4). The required check context is `impl-review-ci/verdict`.
+
+**End-to-end gate proof (throwaway PR #18, closed + branch deleted):**
+
+1. Bad commit — `buildSearchQuery` interpolating raw user input into SQL
+   (injection) — review verdict **REJECTED** → `impl-review-ci/verdict=failure`
+   → PR `mergeStateStatus: BLOCKED` (run `28172696240`). Sonnet correctly flagged
+   one CRITICAL (Safety & Quality FAIL, Plan Adherence FAIL, Success Criteria FAIL).
+2. Parameterized fix → verdict **APPROVED** → `impl-review-ci/verdict=success`
+   → `mergeStateStatus: CLEAN`, mergeable (run `28173085148`).
+
+This closes plan rows 4.5 (deferred from Phase 4) and 5.2–5.4. Rollback: remove
+the required check from branch protection, and/or flip the repo back to private
+(which silently disables protection on the free plan).
+
+**Known follow-up (consciously deferred — not fixed now):** because
+`impl-review-ci/verdict` is a *required* check but `review.yml` only runs on
+code/config `paths:`, a **docs-only PR** (markdown / `context/**`) never triggers
+the workflow, so the required status is never reported and GitHub blocks the
+merge ("Expected — waiting for status to be reported"). Same-reason: these Phase 5
+close-out commits were pushed **directly to `master`** (admin bypass,
+`enforce_admins:false`) rather than via a docs-only PR that would have deadlocked.
+Future docs-only PRs to `master` will hit this until addressed. Options when
+revisited: (a) add a lightweight job that posts `impl-review-ci/verdict=success`
+on docs-only PRs, (b) drop the path filter so review always runs, or (c) accept
+admin-merge for docs PRs. Captured as a recurring trap candidate for
+`/10x-lesson` (required check + path-filtered workflow ⇒ off-path PRs deadlock).

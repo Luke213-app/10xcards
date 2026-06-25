@@ -361,7 +361,7 @@ Make the review job a **required status check** on `master` so a failed review b
 
 - [x] 4.3 Formal GitHub Review from Claude appears on the test PR — c094091
 - [x] 4.4 Correct `ai-cr:passed` / `ai-cr:failed` label applied — c094091 (satisfied via the `impl-review-ci/verdict` commit-status = APPROVED; the label contract was superseded by the verdict-status design in Phase 3)
-- [ ] 4.5 Bad change → `ai-cr:failed` + red job; clean change → `ai-cr:passed` + green — clean → APPROVED → fully green proven (run 28171295219); bad → REJECTED → red path deferred to Phase 5 (consciously skipped here)
+- [x] 4.5 Bad change → `ai-cr:failed` + red job; clean change → `ai-cr:passed` + green — both paths proven in Phase 5 on throwaway PR #18: SQL-injection commit → REJECTED → red `impl-review-ci/verdict` (run 28172696240); parameterized fix → APPROVED → green (run 28173085148). (Verdict-status contract, not `ai-cr:*` labels.)
 - [x] 4.6 Review quality reasonable on Sonnet (prompt tuned if needed) — c094091
 - [x] 4.7 Throwaway PR/branch closed and deleted — PRs #13 & #15 closed, branches deleted
 
@@ -369,10 +369,10 @@ Make the review job a **required status check** on `master` so a failed review b
 
 #### Automated
 
-- [ ] 5.1 Branch protection shows the review check required (`gh api .../branches/master/protection`)
+- [x] 5.1 Branch protection shows the review check required (`gh api .../branches/master/protection`)
 
 #### Manual
 
-- [ ] 5.2 Failing review blocks the merge button
-- [ ] 5.3 Passing review allows merge
-- [ ] 5.4 Block originates from the intended review check
+- [x] 5.2 Failing review blocks the merge button — PR #18 REJECTED verdict → `mergeStateStatus: BLOCKED` (run 28172696240)
+- [x] 5.3 Passing review allows merge — PR #18 after parameterized fix → APPROVED → `mergeStateStatus: CLEAN`, mergeable (run 28173085148)
+- [x] 5.4 Block originates from the intended review check — the only status on the blocked head was `impl-review-ci/verdict=failure`
