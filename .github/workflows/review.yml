@@ -60,6 +60,9 @@ jobs:
       # Required for POSTing the "impl-review-ci/verdict" commit status to the
       # bot's SHA from the "Check review verdict" step.
       statuses: write
+      # claude-code-action@v1 fetches an OIDC token at startup; without this the
+      # action aborts with "Could not fetch an OIDC token" before Claude runs.
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -115,13 +118,28 @@ jobs:
           # user-level skills dir lives outside the repo tree, so the action's
           # sensitive-path handling can't reach it.
           #
-          # Source from origin/<base-ref> so the skill state matches what this
-          # PR is reviewed against, and so PRs branched off before the skill
-          # was vendored still get it.
+          # Prefer the TRUSTED base copy: a malicious PR head can't tamper with
+          # the review skill itself, and this also serves PRs branched off
+          # before the skill was vendored (their head lacks it; base has it).
+          # Fall back to the PR-head working-tree copy on FIRST ROLLOUT, when
+          # the skill isn't on the base branch yet — without this, the very PR
+          # that introduces the skill can never be reviewed. Safe because the
+          # fork guard (job-level `if:`) restricts this job to same-repo PRs
+          # from trusted collaborators, so the head copy is not attacker-controlled.
           git fetch origin "$BASE_REF" --depth=1 2>&1 | tail -1
           mkdir -p "$HOME/.claude/skills"
-          git archive "origin/$BASE_REF" .claude/skills/10x-impl-review-ci \
-            | tar -x --strip-components=2 -C "$HOME/.claude/skills/"
+          SKILL_PATH=".claude/skills/10x-impl-review-ci"
+          if git cat-file -e "origin/$BASE_REF:$SKILL_PATH/SKILL.md" 2>/dev/null; then
+            echo "Staging skill from origin/$BASE_REF (trusted base)."
+            git archive "origin/$BASE_REF" "$SKILL_PATH" \
+              | tar -x --strip-components=2 -C "$HOME/.claude/skills/"
+          elif [ -d "$SKILL_PATH" ]; then
+            echo "Skill not on base yet (first rollout) — staging from PR head working tree."
+            cp -R "$SKILL_PATH" "$HOME/.claude/skills/"
+          else
+            echo "::error title=Skill not found::impl-review-ci skill missing on both base and head; cannot stage."
+            exit 1
+          fi
 
       - name: Run AI review (CI)
         if: steps.guard.outputs.skip != 'true'
@@ -254,14 +272,26 @@ jobs:
               -f target_url="$RUN_URL" > /dev/null
           }
 
-          # mtime ordering picks the newest across plain `impl-review.md` and
-          # `impl-review-phase-N.md` variants.
-          REVIEW_FILE=$(find . -type f -path '*/context/changes/*/reviews/impl-review*.md' 2>/dev/null \
-                          | xargs ls -t 2>/dev/null | head -1)
+          # Only trust a review file the bot COMMITTED AT HEAD — for this run,
+          # or a prior run in the label-retrigger flow (where HEAD is already the
+          # bot's review commit). NEVER grade an arbitrary review file elsewhere
+          # in the tree: a stale report from an unrelated change would post a
+          # FALSE green. (Observed in Phase 4 testing: when claude-code-action
+          # self-skipped, a leftover srs-review-session report was graded as
+          # "NEEDS ATTENTION" though no review ran for this PR.)
+          #
+          # If HEAD isn't a claude[bot] review commit, no review ran for this
+          # head — don't post a status (no review ⇒ no gate signal). For Phase 5
+          # this leaves the required check unsatisfied rather than falsely green.
+          HEAD_AUTHOR=$(git log -1 --format='%an' HEAD)
+          REVIEW_FILE=""
+          if [ "$HEAD_AUTHOR" = "claude[bot]" ]; then
+            REVIEW_FILE=$(git show --name-only --format= HEAD \
+              | grep -E '(^|/)context/changes/[^/]+/reviews/impl-review.*\.md$' \
+              | head -1)
+          fi
           if [ -z "$REVIEW_FILE" ] || [ ! -f "$REVIEW_FILE" ]; then
-            echo "No review file on this branch — nothing to gate on. Passing."
-            # Deliberately skip posting a status here: no review means no gate.
-            # If a prior run left a status on the same SHA, leave it.
+            echo "No review committed by claude[bot] at HEAD — no review ran for this head; nothing to gate on. Not posting a status."
             exit 0
           fi
 
