@@ -31,8 +31,9 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# local-only agent skills — never push to GitHub
-.claude/skills/
+# local-only agent skills — never push to GitHub, EXCEPT the committed CI review skill
+.claude/skills/*
+!.claude/skills/10x-impl-review-ci/
 
 # playwright e2e — captured session cookies (impersonation risk) + reports
 e2e/.auth/
