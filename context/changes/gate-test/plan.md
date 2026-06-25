@@ -27,4 +27,4 @@
 
 ### Phase 1
 
-- [ ] 1.1 Parameterized search builder added
+- [x] 1.1 Parameterized search builder added
