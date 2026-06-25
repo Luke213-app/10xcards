@@ -1,0 +1,144 @@
+# AI Quality Review — a SECOND, independent reviewer, complementary to the
+# plan-vs-implementation reviewer in review.yml. This one scores the diff on 5
+# criteria (correctness, security, idiomaticity, complexity, test coverage) with
+# decision model B and is **advisory only**: it posts a comment, applies a
+# colored pass/fail label, and commits reviews/ai-cr.md — it never blocks merge
+# (no required status check).
+#
+# Every GitHub identifier here is deliberately distinct from review.yml so the
+# two reviewers never share state: workflow name, concurrency group, labels
+# (ai-cr:*), comment marker (<!-- ai-cr:marker -->), report path (reviews/ai-cr.md).
+# No status context is posted at all.
+
+name: AI Quality Review
+
+on:
+  pull_request:
+    branches: [master]
+    # `labeled` powers the ai-cr:review manual retry (gated in the job `if`).
+    types: [opened, synchronize, reopened, labeled]
+
+# Advisory only — write access is for the report commit + comment/labels, not a
+# merge gate.
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ai-cr:
+    # Fork guard: forks can't safely receive commits-back or use repo secrets.
+    # Label gate: on a `labeled` event only proceed for the ai-cr:review retry
+    # trigger; other label toggles are ignored.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action != 'labeled' || github.event.label.name == 'ai-cr:review')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ai-cr-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the composite action's base...HEAD diff resolves;
+          # check out the PR head so the report can be committed back.
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      # Don't recurse on the bot's own report push. The push already carries
+      # [skip ci] AND GITHUB_TOKEN pushes don't trigger workflows — this guard is
+      # belt-and-suspenders. A `labeled` (ai-cr:review) event always re-runs,
+      # even when HEAD is a prior bot commit, so the manual retry works.
+      - name: Guard against bot-commit recursion
+        id: guard
+        env:
+          EVENT_ACTION: ${{ github.event.action }}
+        run: |
+          if [[ "$EVENT_ACTION" == "labeled" ]]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          else
+            AUTHOR=$(git log -1 --format='%an')
+            SUBJECT=$(git log -1 --format='%s')
+            if [[ "$AUTHOR" == "github-actions[bot]" || "$SUBJECT" == *"[skip ci]"* ]]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Run AI quality review
+        id: ai_cr
+        if: steps.guard.outputs.skip != 'true'
+        uses: ./.github/actions/ai-cr
+        with:
+          openrouter-api-key: ${{ secrets.OPENROUTER_API_KEY }}
+          pr-title: ${{ github.event.pull_request.title }}
+          pr-description: ${{ github.event.pull_request.body }}
+          base-ref: ${{ github.event.pull_request.base.ref }}
+          model: anthropic/claude-sonnet-4.6
+
+      # Ensure the three ai-cr:* labels exist with stable colors (idempotent).
+      - name: Ensure labels exist
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "ai-cr:passed" -c "0E8A16" -d "AI quality review passed (advisory)" --force
+          gh label create "ai-cr:failed" -c "D93F0B" -d "AI quality review failed (advisory)" --force
+          gh label create "ai-cr:review" -c "FBCA04" -d "Re-run the AI quality review" --force
+
+      # Post or update (in place, by marker) the single review comment.
+      - name: Post review comment
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          BODY_FILE="reviews/ai-cr.md"
+          EXISTING=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" --paginate \
+            --jq 'map(select(.body | startswith("<!-- ai-cr:marker -->"))) | .[0].id // empty')
+          if [ -n "$EXISTING" ]; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${EXISTING}" \
+              -F body=@"$BODY_FILE" > /dev/null
+            echo "Updated existing ai-cr comment ${EXISTING}."
+          else
+            gh api --method POST "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              -F body=@"$BODY_FILE" > /dev/null
+            echo "Created new ai-cr comment."
+          fi
+
+      # Apply the verdict label, remove its opposite, and consume the retry label.
+      - name: Apply verdict labels
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          VERDICT: ${{ steps.ai_cr.outputs.verdict }}
+        run: |
+          set -euo pipefail
+          if [ "$VERDICT" = "pass" ]; then
+            ADD="ai-cr:passed"; REMOVE="ai-cr:failed"
+          else
+            ADD="ai-cr:failed"; REMOVE="ai-cr:passed"
+          fi
+          gh pr edit "$PR_NUMBER" --add-label "$ADD" --remove-label "$REMOVE"
+          # The retry label is momentary — drop it so it can re-trigger later.
+          gh pr edit "$PR_NUMBER" --remove-label "ai-cr:review" 2>/dev/null || true
+
+      # Commit the report to the PR branch. [skip ci] + the GITHUB_TOKEN-push rule
+      # keep this from re-triggering the workflow.
+      - name: Commit report
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reviews/ai-cr.md
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+          else
+            git commit -m "docs(ai-cr): update AI quality review report [skip ci]"
+            git push origin "HEAD:${HEAD_REF}"
+          fi

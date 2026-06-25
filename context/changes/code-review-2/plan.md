@@ -347,22 +347,22 @@ Ship the reviewer into CI: a composite action wraps the review step (keeps the w
 
 #### Automated
 
-- [x] 3.1 `promptfoo validate` passes on the config
-- [x] 3.2 Eval matrix completes for all 3 models
-- [x] 3.3 Static `javascript` assertion confirms `verdict === "fail"`
-- [x] 3.4 `is-json` assertion confirms contract shape for every model
+- [x] 3.1 `promptfoo validate` passes on the config — c27ed38
+- [x] 3.2 Eval matrix completes for all 3 models — c27ed38
+- [x] 3.3 Static `javascript` assertion confirms `verdict === "fail"` — c27ed38
+- [x] 3.4 `is-json` assertion confirms contract shape for every model — c27ed38
 
 #### Manual
 
-- [x] 3.5 Judge confirms all 3 planted flaws caught (strong model); sensible per-model spread
-- [x] 3.6 The 3 flaws are impactful and distinct
-- [x] 3.7 `threshold`/pass-rate reflects the "all 3" strictness
+- [x] 3.5 Judge confirms all 3 planted flaws caught (strong model); sensible per-model spread — c27ed38
+- [x] 3.6 The 3 flaws are impactful and distinct — c27ed38
+- [x] 3.7 `threshold`/pass-rate reflects the "all 3" strictness — c27ed38
 
 ### Phase 4: CI/CD (Composite Action + Advisory Workflow)
 
 #### Automated
 
-- [ ] 4.1 Workflow + action YAML valid (`actionlint`)
+- [x] 4.1 Workflow + action YAML valid (`actionlint`)
 - [ ] 4.2 `npm ci` resolves the workspace in CI
 - [ ] 4.3 Job completes and emits a verdict output on a test PR
 
