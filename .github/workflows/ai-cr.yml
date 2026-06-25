@@ -44,10 +44,14 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
 
-      # Don't recurse on the bot's own report push. The push already carries
-      # [skip ci] AND GITHUB_TOKEN pushes don't trigger workflows — this guard is
-      # belt-and-suspenders. A `labeled` (ai-cr:review) event always re-runs,
-      # even when HEAD is a prior bot commit, so the manual retry works.
+      # Don't recurse on the bot's own report push. GITHUB_TOKEN pushes don't
+      # trigger workflows (primary defense); this author-based guard is
+      # belt-and-suspenders. The report commit deliberately does NOT carry
+      # [skip ci]: GitHub suppresses *all* pull_request events (including
+      # `labeled`) when HEAD's commit message has [skip ci], which would silently
+      # kill the ai-cr:review manual retry. With no [skip ci] on HEAD, a
+      # `labeled` (ai-cr:review) event re-runs even when HEAD is a prior bot
+      # commit, so the manual retry actually works.
       - name: Guard against bot-commit recursion
         id: guard
         env:
@@ -125,8 +129,10 @@ jobs:
           # The retry label is momentary — drop it so it can re-trigger later.
           gh pr edit "$PR_NUMBER" --remove-label "ai-cr:review" 2>/dev/null || true
 
-      # Commit the report to the PR branch. [skip ci] + the GITHUB_TOKEN-push rule
-      # keep this from re-triggering the workflow.
+      # Commit the report to the PR branch. Recursion is prevented by the
+      # GITHUB_TOKEN-push rule (such pushes never trigger workflows) plus the
+      # author-based guard above — NOT by [skip ci], which is intentionally
+      # omitted so the ai-cr:review label retry isn't suppressed (see guard note).
       - name: Commit report
         if: steps.guard.outputs.skip != 'true'
         env:
@@ -139,6 +145,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No report changes to commit."
           else
-            git commit -m "docs(ai-cr): update AI quality review report [skip ci]"
+            git commit -m "docs(ai-cr): update AI quality review report"
             git push origin "HEAD:${HEAD_REF}"
           fi
